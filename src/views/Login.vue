@@ -56,7 +56,7 @@ export default {
         const emailStyle = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
         const isNumber = /^[0-9]+$/;
         if (emailStyle.test(this.username) || isNumber.test(this.username)) {
-           Toast.success('登录成功');
+           this.$store.dispatch("login", {username:this.username,password:this.password});
         } else {
            Toast.fail("Input format is wrong, please re-enter");
         }
