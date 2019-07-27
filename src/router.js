@@ -5,6 +5,7 @@ import Order from './views/Order.vue'
 import Place from './views/Place.vue'
 import History from './views/History.vue'
 import User from './views/User.vue'
+import Login from './views/Login.vue'
 Vue.use(Router)
 
 export default new Router({
