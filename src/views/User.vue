@@ -1,13 +1,13 @@
 <template>
   <div>
-    <span>1</span>
+    我的
   </div>
 </template>
 
 <script>
 
   export default {
-    name:'order',
+    name:'user',
     props:[''],
     data () {
       return {

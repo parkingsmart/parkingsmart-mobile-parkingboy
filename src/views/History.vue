@@ -1,13 +1,13 @@
 <template>
   <div>
-    <span>1</span>
+    历史
   </div>
 </template>
 
 <script>
 
   export default {
-    name:'order',
+    name:'history',
     props:[''],
     data () {
       return {

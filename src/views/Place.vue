@@ -1,13 +1,13 @@
 <template>
   <div>
-    <span>1</span>
+    停取
   </div>
 </template>
 
 <script>
 
   export default {
-    name:'order',
+    name:'place',
     props:[''],
     data () {
       return {

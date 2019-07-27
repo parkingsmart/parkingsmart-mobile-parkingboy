@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <Common></Common>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import Common from "./views/Common.vue";
 export default {
   name: "app",
-  components: { Common }
 };
 </script>
 
