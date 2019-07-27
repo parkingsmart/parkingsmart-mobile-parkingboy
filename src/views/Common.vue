@@ -8,7 +8,7 @@
     </div>
     <div class="footer">
       <van-tabbar route v-model="title">
-        <van-tabbar-item replace to="/order" icon="description" name="抢单">抢单</van-tabbar-item>
+        <van-tabbar-item replace to="/order" icon="description" name="订单">抢单</van-tabbar-item>
         <van-tabbar-item replace to="/place" icon="logistics" name="停取">停取</van-tabbar-item>
         <van-tabbar-item replace to="/history" icon="todo-list-o" name="历史">历史</van-tabbar-item>
         <van-tabbar-item replace to="/user" icon="user-o" name="我的">我的</van-tabbar-item>
@@ -23,7 +23,7 @@ export default {
   props: [""],
   data() {
     return {
-      title: "抢单"
+      title: "订单"
     };
   },
 
