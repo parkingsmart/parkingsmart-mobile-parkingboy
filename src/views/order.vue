@@ -4,7 +4,7 @@
       v-for="order in orders"
       :key="order.id"
       :title="order.carNumber"
-      :label="order.parkStartTime|formatTime"
+      :label="formatTime(order)"
       icon="logistics"
       size="large"
       @click="grabOrder(order)"
@@ -26,16 +26,17 @@ export default {
         {
           id: "12312",
           carNumber: "66666",
-          parkStartTime: "10:20"
+          parkTime: "10:20",
+          type: 1
         },
         {
           id: "12312313",
           carNumber: "77777",
-          parkStartTime: "19:20"
+          parkTime: "10:20",
+          fetchTime: "19:20",
+          type: 0
         }
       ],
-      parkingTime: "10:00",
-      loading: ""
     };
   },
 
@@ -50,15 +51,16 @@ export default {
   mounted() {},
 
   methods: {
-    grabOrder(order){
-      console.log('1111:',order)
+    grabOrder(order) {
+      console.log("1111:", order);
+    },
+    formatTime(order){
+      return order.type === 1
+        ? "停车时间：" + order.parkTime
+        : "取车时间：" + order.fetchTime;
     }
   },
-  filters: {
-    formatTime: function(value) {
-      return "停车时间：" + value;
-    }
-  },
+ 
 
   watch: {}
 };
