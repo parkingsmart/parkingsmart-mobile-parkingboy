@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ParkingBoy from './views/ParkingBoy'
+import Common from './views/Common.vue'
+import Order from './views/Order.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -14,8 +15,18 @@ export default new Router({
     // },
     {
       path: '/parkingboy',
-      name: 'parkingboy',
-      component: ParkingBoy,
+      name: 'common',
+      component: Common,
+      children: [
+        {
+          path: 'order',
+          name: 'order',
+          component: Order,
+        },
+        
+      ]
+
+
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
