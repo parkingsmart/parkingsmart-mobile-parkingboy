@@ -1,18 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Common from './views/Common.vue'
-import Order from './views/Order.vue'
+import Order from './views/order.vue'
+import Login from './views/Login.vue'
 Vue.use(Router)
 
 export default new Router({
   mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   component: Login
-    // },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
     {
       path: '/parkingboy',
       name: 'common',
