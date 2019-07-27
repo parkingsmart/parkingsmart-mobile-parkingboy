@@ -1,37 +1,31 @@
 <template>
   <div>
-    停取
+    <van-cell title="选择停车场" is-link />
   </div>
 </template>
 
 <script>
+export default {
+  name: "place",
+  props: [""],
+  data() {
+    return {};
+  },
 
-  export default {
-    name:'place',
-    props:[''],
-    data () {
-      return {
+  components: {},
 
-      };
-    },
+  computed: {},
 
-    components: {},
+  created() {},
 
-    computed: {},
+  beforeMount() {},
 
-    created() {},
+  mounted() {},
 
-    beforeMount() {},
+  methods: {},
 
-    mounted() {},
-
-    methods: {},
-
-    watch: {}
-
-  }
-
+  watch: {}
+};
 </script>
 <style lang='' scoped>
-
 </style>
