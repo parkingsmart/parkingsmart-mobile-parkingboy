@@ -5,17 +5,18 @@ import Order from './views/Order.vue'
 import Place from './views/Place.vue'
 import History from './views/History.vue'
 import User from './views/User.vue'
+import Login from './views/Login.vue'
 Vue.use(Router)
 
 export default new Router({
   mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   component: Login
-    // },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
     {
       path: '/',
       name: 'common',
