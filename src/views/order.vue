@@ -53,6 +53,7 @@ export default {
   methods: {
     grabOrder(order) {
       console.log("1111:", order);
+      this.$router.push('/place')
     },
     formatTime(order){
       return order.type === 1
