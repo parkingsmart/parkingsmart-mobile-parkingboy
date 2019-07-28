@@ -46,9 +46,11 @@ export default {
       console.log(await getParkingLots(this.$store.state.employee.id));
       this.parkingLots = await getParkingLots(this.$store.state.employee.id);
     },
-    seleceParkingLot(parkingLot) {
-      console.log(parkingLot);
-      updateOrderParkingLot(this.$store.state.currentOrder.id, parkingLot);
+    async seleceParkingLot(parkingLot) {
+      if(this.$store.state.currentOrder!=null){
+        await updateOrderParkingLot(this.$store.state.currentOrder.id, parkingLot);
+        this.$router.go(-1);
+      }
     },
     fomatCapacity(parkingLot) {
       return parkingLot.size - parkingLot.parkedNum;
