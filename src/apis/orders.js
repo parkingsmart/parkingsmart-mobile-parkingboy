@@ -19,3 +19,17 @@ export async function grabOrderById(orderId,employee){
       });
 }
 
+
+export async function updateOrderParkingLot(orderId,parkingLot){
+    await axios({
+        method: "put",
+        url: baseUrl+orderId+'/parkinglot',
+        data: JSON.stringify(parkingLot),
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' }
+      })
+      .then((res) => {
+      })
+      .catch(function (err) {
+      });
+}
+

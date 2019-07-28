@@ -62,15 +62,8 @@ export default {
         this.$router.push({ name: "login" });
       }
     },
-    initData() {
-      getAllNewOrders()
-        .then(res => {
-          console.log(this.$store.state.employee);
-          this.orders = res.newOrders;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    async initData() {
+      this.orders = (await getAllNewOrders()).newOrders;
     },
     grabOrder(order) {
       console.log(order);
