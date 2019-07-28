@@ -13,11 +13,18 @@
     line-height: 50px;
     font-size: 18px;
   }
-  .loginfontStyle{
-    font-weight: bold;
-    font-style: "Times New Roman";
-  }
   .head-font{
       color: #1b82d2
   }
+  .loginStyle{
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(204, 204, 204)
+  }
+  .loginCenter{
+    display: flex;
+    align-items: center;
+  }
+
   
