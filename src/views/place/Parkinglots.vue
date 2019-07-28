@@ -48,7 +48,7 @@ export default {
     },
     seleceParkingLot(parkingLot) {
       console.log(parkingLot);
-      updateOrderParkingLot(this.$store.state.orderId, parkingLot);
+      updateOrderParkingLot(this.$store.state.currentOrder.id, parkingLot);
     },
     fomatCapacity(parkingLot) {
       return parkingLot.size - parkingLot.parkedNum;

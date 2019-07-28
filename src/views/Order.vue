@@ -10,7 +10,7 @@
       @click="grabOrder(order)"
     >
       <template slot="default">
-        <van-button round type="danger">抢单</van-button>
+        <van-button round type="info">抢单</van-button>
       </template>
     </van-cell>
   </div>
@@ -69,7 +69,8 @@ export default {
       console.log(order);
       grabOrderById(order.id,this.$store.state.employee)
         .then(res => {
-          this.$store.commit('updateOrderId',order.id)
+          this.$store.commit('saveCurrentOrder',order)
+          console.log("this.$store.state.currentOrder:",this.$store.state.currentOrder)
         })
         .catch(err => {
           console.log(err);

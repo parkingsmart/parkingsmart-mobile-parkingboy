@@ -23,3 +23,11 @@ export async function updateOrderParkingLot(orderId,parkingLot){
         headers: { 'Content-Type': 'application/json;charset=UTF-8' }
       });
 }
+export async function finishOrder(orderId){
+    await axios({
+        method: "patch",
+        url: baseUrl+orderId,
+        // data: JSON.stringify(parkingLot),
+        // headers: { 'Content-Type': 'application/json;charset=UTF-8' }
+      });
+}

@@ -3,7 +3,7 @@ export default {
     getEmployeeInfo(state, employee) {
         State.employee = employee;
     },
-    updateOrderId(state, orderId) {
-        State.orderId = orderId;
+    saveCurrentOrder(state, order) {
+        state.currentOrder = order;
     }
 };

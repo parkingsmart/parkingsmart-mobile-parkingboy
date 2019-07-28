@@ -6,22 +6,28 @@
       </van-cell-group>
     </div>
     <div class="btn">
-      <van-button type="info" size="large">完成订单</van-button>
+      <van-button type="info" size="large" @click="finishOrder">完成订单</van-button>
     </div>
   </div>
 </template>
-
+ 
 <script>
+
 export default {
-  name: "",
+  name: "Actions",
   props: [""],
   data() {
-    return {};
+    return {
+    };
   },
 
   components: {},
 
-  computed: {},
+  computed: {
+    // isSelectParkingLot(){
+    //   return this.$store.state.currentOrder!=null
+    // }
+  },
 
   created() {},
 
@@ -29,7 +35,11 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    finishOrder(){
+
+    }
+  },
 
   watch: {}
 };
