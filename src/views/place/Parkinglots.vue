@@ -55,7 +55,7 @@ export default {
 
   methods: {
     seleceParkingLot(parkingLot) {
-        console.log(parkingLot)
+        console.log(parkingLot);
     }
   },
 

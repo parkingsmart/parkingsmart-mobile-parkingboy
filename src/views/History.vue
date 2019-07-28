@@ -29,7 +29,7 @@
 
     watch: {}
 
-  }
+  };
 
 </script>
 <style lang='' scoped>
