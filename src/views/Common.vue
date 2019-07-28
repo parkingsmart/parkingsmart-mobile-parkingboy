@@ -59,11 +59,12 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-.header{
-  text-align: center
+.header {
+  text-align: center;
 }
 .back {
-  float: left;
+  position: absolute;
+  left: 10px;
 }
 .back-icon {
   font-size: 28px;

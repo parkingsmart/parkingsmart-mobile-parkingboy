@@ -53,7 +53,8 @@ export default {
 
   methods: {
     grabOrder(order) {
-      this.$router.push('/place')
+      console.log(order);
+      this.$router.push({name:'place'});
     },
     formatTime(order){
       //moment(time).format(YYYY-MM-DD HH-mm)
@@ -61,9 +62,7 @@ export default {
         ? "停车时间：" + order.parkTime
         : "取车时间：" + order.fetchTime;
     }
-  },
- 
-
+  }, 
   watch: {}
 };
 </script>
