@@ -2,7 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Common from './views/Common.vue'
 import Order from './views/Order.vue'
-import Place from './views/Place.vue'
+import Place from './views/place'
+import Parkinglots from './views/place/Parkinglots'
+import Actions from './views/place/Actions'
 import History from './views/History.vue'
 import User from './views/User.vue'
 import Login from './views/Login.vue'
@@ -32,6 +34,20 @@ export default new Router({
           path: '/place',
           name: 'place',
           component: Place,
+          redirect: { name: 'actions' },
+          children: [
+            {
+              name: 'actions',
+              path: 'actions',
+              component: Actions
+            },
+            {
+              name: 'parkinglots',
+              path: 'actions/parkinglots',
+              component: Parkinglots,
+              meta: { isShowBack: true }
+            }
+          ]
         },
         {
           path: '/history',

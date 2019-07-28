@@ -1,7 +1,8 @@
 <template>
   <div>
-    <van-cell title="选择停车场" is-link />
+    <router-view/>
   </div>
+
 </template>
 
 <script>
@@ -9,7 +10,9 @@ export default {
   name: "place",
   props: [""],
   data() {
-    return {};
+    return {
+      isShow:true
+    };
   },
 
   components: {},
@@ -22,7 +25,9 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+   
+  },
 
   watch: {}
 };

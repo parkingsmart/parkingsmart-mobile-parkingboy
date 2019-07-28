@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+// import moment from 'moment'
 export default {
   name: "order",
   props: [""],
@@ -53,7 +53,6 @@ export default {
 
   methods: {
     grabOrder(order) {
-      console.log("1111:", order);
       this.$router.push('/place')
     },
     formatTime(order){
