@@ -3,7 +3,7 @@
     <van-cell
       v-for="order in orders"
       :key="order.id"
-      :title="order.carNumber"
+      :title="order.carNumebr"
       :label="formatTime(order)"
       icon="logistics"
       size="large"
@@ -17,7 +17,8 @@
 </template>
 
 <script>
-// import moment from 'moment'
+import moment from 'moment';
+import { getAllNewOrders } from "../apis/orders";
 export default {
   name: "order",
   props: [""],
@@ -37,7 +38,7 @@ export default {
           fetchTime: "19:20",
           type: 0
         }
-      ],
+      ]
     };
   },
 
@@ -45,24 +46,35 @@ export default {
 
   computed: {},
 
-  created() {},
+  created() {
+  },
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    this.initData();
+  },
 
   methods: {
+    initData() {
+      getAllNewOrders()
+        .then(res => {
+          console.log(res.newOrders);
+          this.orders = res.newOrders;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     grabOrder(order) {
       console.log(order);
-      this.$router.push({name:'place'});
+      this.$router.push({ name: "place" });
     },
-    formatTime(order){
-      //moment(time).format(YYYY-MM-DD HH-mm)
-      return order.type === 1
-        ? "停车时间：" + order.parkTime
-        : "取车时间：" + order.fetchTime;
+    formatTime(order) {
+      let time = moment(time).format("HH:mm");
+      return order.type === 0 ? "停车时间：" + time : "取车时间：" + time;
     }
-  }, 
+  },
   watch: {}
 };
 </script>
