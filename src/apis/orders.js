@@ -1,6 +1,6 @@
 import axios from './base.js';
 
-const baseUrl = 'http://localhost:8080/orders/newOrders/';
+const baseUrl = '/api/orders/newOrders/';
 
 export function getAllNewOrders (){
     return axios.get(baseUrl);
