@@ -68,8 +68,8 @@ export default {
     grabOrder(order) {
       console.log(order);
       grabOrderById(order.id,this.$store.state.employee)
-        .then(res => {
-          order.employeeId=this.$store.state.employee.id;
+        .then(() => {
+          order.employeeId = this.$store.state.employee.id;
           this.$store.commit('saveCurrentOrder',order);
           console.log("this.$store.state.currentOrder:",this.$store.state.currentOrder);
         })

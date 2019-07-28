@@ -6,30 +6,30 @@
 
 <script>
 
-  export default {
-    name:'history',
-    props:[''],
-    data () {
-      return {
+export default {
+  name:'history',
+  props:[''],
+  data () {
+    return {
 
-      };
-    },
+    };
+  },
 
-    components: {},
+  components: {},
 
-    computed: {},
+  computed: {},
 
-    created() {},
+  created() {},
 
-    beforeMount() {},
+  beforeMount() {},
 
-    mounted() {},
+  mounted() {},
 
-    methods: {},
+  methods: {},
 
-    watch: {}
+  watch: {}
 
-  };
+};
 
 </script>
 <style lang='' scoped>

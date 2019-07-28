@@ -10,7 +10,7 @@
     </div>
   </div>
 </template>
- 
+
 <script>
 import { finishOrder } from '../../apis/orders';
 export default {
@@ -37,10 +37,10 @@ export default {
 
   methods: {
     completeOrder(){
-      if(this.$store.state.currentOrder!=null){
+      if(this.$store.state.currentOrder !== null){
         finishOrder(this.$store.state.currentOrder.id);
       }
-      
+
     }
   },
 

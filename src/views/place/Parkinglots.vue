@@ -47,7 +47,7 @@ export default {
       this.parkingLots = await getParkingLots(this.$store.state.employee.id);
     },
     async seleceParkingLot(parkingLot) {
-      if(this.$store.state.currentOrder!=null){
+      if(this.$store.state.currentOrder !== null){
         await updateOrderParkingLot(this.$store.state.currentOrder.id, parkingLot);
         this.$router.go(-1);
       }
