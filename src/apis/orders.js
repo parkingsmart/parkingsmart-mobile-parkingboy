@@ -7,18 +7,13 @@ export function getAllNewOrders (){
 }
 
 export async function grabOrderById(orderId,employee){
-    await axios({
+    return await axios({
         method: "put",
         url: baseUrl+orderId,
         data: JSON.stringify(employee),
         headers: { 'Content-Type': 'application/json;charset=UTF-8' }
-      })
-      .then((res) => {
-      })
-      .catch(function (err) {
       });
 }
-
 
 export async function updateOrderParkingLot(orderId,parkingLot){
     await axios({
@@ -26,10 +21,5 @@ export async function updateOrderParkingLot(orderId,parkingLot){
         url: baseUrl+orderId+'/parkinglot',
         data: JSON.stringify(parkingLot),
         headers: { 'Content-Type': 'application/json;charset=UTF-8' }
-      })
-      .then((res) => {
-      })
-      .catch(function (err) {
       });
 }
-

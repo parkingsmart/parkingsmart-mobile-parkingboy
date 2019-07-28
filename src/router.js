@@ -1,15 +1,15 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Common from './views/Common.vue'
-import Order from './views/Order.vue'
-import Place from './views/place'
-import Actions from './views/place/Actions.vue'
-import Parkinglots from './views/place/Parkinglots.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Common from './views/Common.vue';
+import Order from './views/Order.vue';
+import Place from './views/place';
+import Actions from './views/place/Actions.vue';
+import Parkinglots from './views/place/Parkinglots.vue';
 
-import History from './views/History.vue'
-import User from './views/User.vue'
-import Login from './views/Login.vue'
-Vue.use(Router)
+import History from './views/History.vue';
+import User from './views/User.vue';
+import Login from './views/Login.vue';
+Vue.use(Router);
 
 export default new Router({
   mode: 'hash',
@@ -64,4 +64,4 @@ export default new Router({
       ]
     }
   ]
-})
+});
