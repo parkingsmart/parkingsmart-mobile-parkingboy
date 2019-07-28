@@ -19,7 +19,7 @@
 <script>
 // import moment from 'moment'
 export default {
-  name: "order",
+  name: "Order",
   props: [""],
   data() {
     return {
