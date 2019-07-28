@@ -6,13 +6,13 @@
       </van-cell-group>
     </div>
     <div class="btn">
-      <van-button type="info" size="large" @click="finishOrder">完成订单</van-button>
+      <van-button type="info" size="large" @click="completeOrder">完成订单</van-button>
     </div>
   </div>
 </template>
  
 <script>
-
+import { finishOrder } from '../../apis/orders';
 export default {
   name: "Actions",
   props: [""],
@@ -36,8 +36,11 @@ export default {
   mounted() {},
 
   methods: {
-    finishOrder(){
-
+    completeOrder(){
+      if(this.$store.state.currentOrder!=null){
+        finishOrder(this.$store.state.currentOrder.id);
+      }
+      
     }
   },
 
