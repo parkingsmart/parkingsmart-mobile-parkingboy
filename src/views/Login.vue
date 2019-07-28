@@ -1,5 +1,5 @@
 <template>
-  <van-cell-group>
+  <van-cell-group class="content">
     <van-image width="108" height="105" round src="https://img.yzcdn.cn/vant/cat.jpeg" />
     <van-field
       v-model="username"
@@ -67,5 +67,8 @@ export default {
   watch: {}
 };
 </script>
-<style lang='' scoped>
+<style lang='scss' scoped>
+.content{
+  text-align: center;
+}
 </style>
