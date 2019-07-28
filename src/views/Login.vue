@@ -2,7 +2,9 @@
  <div class="loginStyle">
     <div class="loginCenter">
       <van-cell-group style="background-color: rgb(204, 204, 204);">
+        <div style="display:flex;justify-content:center;">
         <van-image width="108" height="105" round src="https://img.yzcdn.cn/vant/cat.jpeg" />
+        </div>
         <van-field
           style="margin-top:15px;"
           v-model="username"
@@ -22,7 +24,7 @@
           round
           type="info"
           size="large"
-          style="width:90%;margin-top:25px;"
+          style="margin-top:25px;"
           @click="submit"
         >登录</van-button>
       </van-cell-group>
