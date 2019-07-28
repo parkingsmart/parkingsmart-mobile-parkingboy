@@ -53,9 +53,9 @@ export default {
       } else if (this.password === "") {
          Toast.fail("please enter password");
       } else {
-        const emailStyle = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-        const isNumber = /^[0-9]+$/;
-        if (emailStyle.test(this.username) || isNumber.test(this.username)) {
+        const regEmail = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+        const regNumber = new RegExp("/^[0-9]+$/");
+        if (regEmail.test(this.username) || regNumber.test(this.username)) {
            this.$store.dispatch("login", {username:this.username,password:this.password});
         } else {
            Toast.fail("Input format is wrong, please re-enter");
