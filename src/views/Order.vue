@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import moment from 'moment';
-import { getAllNewOrders } from "../apis/orders";
+import moment from "moment";
+import { getAllNewOrders, grabOrderById } from "../apis/orders";
 export default {
   name: "Order",
   props: [""],
@@ -47,6 +47,7 @@ export default {
   computed: {},
 
   created() {
+    this.checkExistUser();
   },
 
   beforeMount() {},
@@ -56,10 +57,15 @@ export default {
   },
 
   methods: {
+    checkExistUser() {
+      if (!this.$store.state.employee) {
+        this.$router.push({ name: "login" });
+      }
+    },
     initData() {
       getAllNewOrders()
         .then(res => {
-          console.log(res.newOrders);
+          console.log(this.$store.state.employee);
           this.orders = res.newOrders;
         })
         .catch(err => {
@@ -68,6 +74,13 @@ export default {
     },
     grabOrder(order) {
       console.log(order);
+      grabOrderById(order.id,this.$store.state.employee)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
       this.$router.push({ name: "place" });
     },
     formatTime(order) {
