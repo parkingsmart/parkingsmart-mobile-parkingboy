@@ -1,4 +1,19 @@
 <template>
+<<<<<<< HEAD
+=======
+  <van-cell-group class="content">
+    <van-image width="108" height="105" round src="https://img.yzcdn.cn/vant/cat.jpeg" />
+    <van-field
+      v-model="username"
+      required
+      clearable
+      label="用户名"
+      class="loginfontStyle"
+      right-icon="question-o"
+      placeholder="id/phone/email"
+      @click-right-icon="$toast('question')"
+    />
+>>>>>>> 64d00a6b8c36451a8741423354f570c9a6b3eb22
 
   <div class="loginStyle">
     <div class="loginCenter">
@@ -77,5 +92,8 @@ export default {
   watch: {}
 };
 </script>
-<style lang='' scoped>
+<style lang='scss' scoped>
+.content{
+  text-align: center;
+}
 </style>

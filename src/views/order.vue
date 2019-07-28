@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+// import moment from 'moment'
 export default {
   name: "order",
   props: [""],
@@ -53,8 +53,8 @@ export default {
 
   methods: {
     grabOrder(order) {
-      console.log("1111:", order);
-      this.$router.push('/place')
+      console.log(order);
+      this.$router.push({name:'place'});
     },
     formatTime(order){
       //moment(time).format(YYYY-MM-DD HH-mm)
@@ -62,9 +62,7 @@ export default {
         ? "停车时间：" + order.parkTime
         : "取车时间：" + order.fetchTime;
     }
-  },
- 
-
+  }, 
   watch: {}
 };
 </script>
