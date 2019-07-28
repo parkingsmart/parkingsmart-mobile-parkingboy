@@ -69,7 +69,7 @@ export default {
       console.log(order);
       grabOrderById(order.id,this.$store.state.employee)
         .then(res => {
-          console.log(res);
+          this.$store.commit('updateOrderId',order.id)
         })
         .catch(err => {
           console.log(err);

@@ -1,37 +1,45 @@
 <template>
   <div>
-    <van-cell  title="选择停车场" is-link :to="{name: 'parkinglots'}"  />
+    <div class="actions">
+      <van-cell-group class="actions">
+        <van-cell title="选择停车场" is-link :to="{name: 'parkinglots'}" />
+      </van-cell-group>
+    </div>
+    <div class="btn">
+      <van-button type="info" size="large">完成订单</van-button>
+    </div>
   </div>
 </template>
 
 <script>
+export default {
+  name: "",
+  props: [""],
+  data() {
+    return {};
+  },
 
-  export default {
-    name:'',
-    props:[''],
-    data () {
-      return {
+  components: {},
 
-      };
-    },
+  computed: {},
 
-    components: {},
+  created() {},
 
-    computed: {},
+  beforeMount() {},
 
-    created() {},
+  mounted() {},
 
-    beforeMount() {},
+  methods: {},
 
-    mounted() {},
-
-    methods: {},
-
-    watch: {}
-
-  };
-
+  watch: {}
+};
 </script>
-<style lang='' scoped>
-
+<style lang='scss' scoped>
+.actions {
+  margin-top: 16%;
+}
+.btn {
+  margin-top: 60%;
+  padding: 0 20px;
+}
 </style>
