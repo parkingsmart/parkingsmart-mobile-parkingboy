@@ -5,8 +5,8 @@
         <van-cell
           v-for="parkingLot in parkingLots"
           :key="parkingLot.id"
-          :title="`${parkingLot.name}(${parkingLot.nowCapacity})`"
-          clickable 
+          :title="`${parkingLot.name}(${fomatCapacity(parkingLot)})`"
+          clickable
           @click="result = parkingLot"
         >
           <van-radio slot="right-icon" :name="parkingLot" />
@@ -17,29 +17,15 @@
 </template>
 
 <script>
+import { getParkingLots } from "../../apis/parkingLot";
+import { updateOrderParkingLot } from "../../apis/orders";
 export default {
   name: "parkinglots",
   props: [""],
   data() {
     return {
-      parkingLots: [
-        {
-          id: "1",
-          name: "停车场1",
-          nowCapacity: 7
-        },
-        {
-          id: "2",
-          name: "停车场2",
-          nowCapacity: 12
-        },
-        {
-          id: "3",
-          name: "停车场3",
-          nowCapacity: 5
-        }
-      ],
-      result:'',
+      parkingLots: [],
+      result: ""
     };
   },
 
@@ -47,15 +33,25 @@ export default {
 
   computed: {},
 
-  created() {},
+  created() {
+    this.initData();
+  },
 
   beforeMount() {},
 
   mounted() {},
 
   methods: {
+    async initData() {
+      console.log(await getParkingLots(this.$store.state.employee.id));
+      this.parkingLots = await getParkingLots(this.$store.state.employee.id);
+    },
     seleceParkingLot(parkingLot) {
-        console.log(parkingLot)
+      console.log(parkingLot);
+      updateOrderParkingLot;
+    },
+    fomatCapacity(parkingLot) {
+      return parkingLot.size - parkingLot.parkedNum;
     }
   },
 
