@@ -32,6 +32,7 @@
 
 <script>
 import { Toast } from "vant";
+import { login } from "../apis/login";
 export default {
   name: "Login",
   props: [""],
@@ -62,10 +63,16 @@ export default {
         const regEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
         const regNumber = /^[0-9]+$/;
         if (regEmail.test(this.username) || regNumber.test(this.username)) {
-          this.$store.dispatch("login", {
+          login({
             username: this.username,
             password: this.password
-          });
+          }).then(res => {
+          this.$store.commit('getEmployeeInfo',res);
+          this.$router.push('/order');
+        })
+        .catch(err => {
+          console.log(err);
+        });
         } else {
           Toast.fail("Input format is wrong, please re-enter");
         }
