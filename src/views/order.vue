@@ -20,7 +20,7 @@
 import moment from 'moment';
 import { getAllNewOrders } from "../apis/orders";
 export default {
-  name: "order",
+  name: "Order",
   props: [""],
   data() {
     return {
