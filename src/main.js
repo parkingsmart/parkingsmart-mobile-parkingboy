@@ -6,6 +6,7 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 import axios from 'axios';
 
+
 Vue.use(Vant);
 Vue.use(axios)
 
