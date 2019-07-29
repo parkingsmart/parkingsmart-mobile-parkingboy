@@ -1,4 +1,4 @@
 export default {
-  employee: {},
+  employee: null,
   currentOrder:{},
 };

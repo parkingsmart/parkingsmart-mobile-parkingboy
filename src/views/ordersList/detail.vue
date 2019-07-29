@@ -1,26 +1,28 @@
 <template>
   <div>
-    <van-dropdown-item :title="parkingLotKf.name" ref="item">
-      <van-radio-group v-model="parkingLotKf">
-        <van-cell-group>
-          <van-cell
-            v-for="parkingLot in parkingLots"
-            :key="parkingLot.id"
-            :title="`${parkingLot.name}(${fomatCapacity(parkingLot)})`"
-            clickable
-            @click="result = parkingLot"
-          >
-            <van-radio slot="right-icon" :name="parkingLot" />
-          </van-cell>
-        </van-cell-group>
-      </van-radio-group>
-      <van-button block type="info" @click="seleceParkingLot">确认</van-button>
-    </van-dropdown-item>
+    <van-dropdown-menu>
+      <van-dropdown-item :title="defaultTitle" ref="item">
+        <van-radio-group v-model="parkingLotKf">
+          <van-cell-group>
+            <van-cell
+              v-for="parkingLot in parkingLots"
+              :key="parkingLot.id"
+              :title="`${parkingLot.name}(${fomatCapacity(parkingLot)})`"
+              clickable
+              @click="parkingLotKf.name=parkingLot.name"
+            >
+              <van-radio slot="right-icon" :name="parkingLot.name" />
+            </van-cell>
+          </van-cell-group>
+        </van-radio-group>
+        <van-button block type="info" @click="seleceParkingLot">确认</van-button>
+      </van-dropdown-item>
+    </van-dropdown-menu>
   </div>
 </template>
 
 <script>
-import { getParkingLots } from "../../apis/parkingLot";
+import { getParkingLots } from "../../apis/employee";
 import { updateOrderParkingLot } from "../../apis/orders";
 import requestHandler from "../../utils/requestHandler";
 export default {
@@ -29,7 +31,9 @@ export default {
   data() {
     return {
       parkingLots: [],
-      parkingLotKf: {}
+      parkingLotKf: {},
+      parkingLotName:'',
+      defaultTitle: "请选择停车场"
     };
   },
 
@@ -39,6 +43,7 @@ export default {
 
   async created() {
     this.parkingLots = await getParkingLots(this.$store.state.employee.id);
+    console.log("1111", this.parkingLots);
   },
   mounted() {},
 
@@ -49,6 +54,11 @@ export default {
         .msg("修改成功", "修改失败")
         .loading()
         .exec();
+      this.$refs.item.toggle();
+      this.defaultTitle = this.parkingLotKf.name;
+    },
+    fomatCapacity(parkingLot) {
+      return parkingLot.size - parkingLot.parkedNum;
     }
   },
 

@@ -4,7 +4,7 @@
       <van-cell
         v-for="order in orders"
         :key="order.id"
-        :title="order.carNumebr"
+        :title="order.carNumber"
         :label="order.appointTime |formatTime"
         icon="logistics"
         size="large"
@@ -47,12 +47,11 @@ export default {
       }
     },
     async initData() {
-      this.orders = await requestHandler
+      this.orders = (await requestHandler
         .invoke(getAllNewOrders())
         .msg("获取订单列表", "获取失败")
         .loading()
-        .exec();
-      // this.orders = (await getAllNewOrders()).newOrders;
+        .exec()).orders;
       this.isLoading = false;
     },
     async grabOrder(order) {
@@ -62,34 +61,14 @@ export default {
         .loading()
         .exec();
 
-      this.$dialog.confirm({
-        message: "是否现在选择停车位？"
-      }).then(()=>{
-        this.$router.push({ name: "place", params: {orderId:order.id} });
-      });
-
-      this.$router.push({ name: "place", params: {} });
-      order.employeeId = this.$store.state.employee.id;
-      this.$store.commit("saveCurrentOrder", order);
-
-      grabOrderById(order.id, this.$store.state.employee)
-        .then(() => {
-          order.employeeId = this.$store.state.employee.id;
-          this.$store.commit("saveCurrentOrder", order);
-          this.$toast({
-            message: "抢单成功",
-            type: "success",
-            forbidClick: true,
-            onClose: this.$router.push({ name: "place" })
-          });
-          console.log(
-            "this.$store.state.currentOrder:",
-            this.$store.state.currentOrder
-          );
+      this.$dialog
+        .confirm({
+          message: "是否现在选择停车位？"
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .then(() => {
+          this.$router.push({ name: "detail", params: { orderId: order.id } });
+        })
+        .catch(() => {});
     }
   },
   filters: {

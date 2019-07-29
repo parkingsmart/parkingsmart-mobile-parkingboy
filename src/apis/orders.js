@@ -3,9 +3,9 @@ import axios from './base.js';
 const baseUrl = '/api/orders';
 
 export function getAllNewOrders() {
-  return axios.get(baseUrl,{
-    params:{
-      status:0
+  return axios.get(baseUrl, {
+    params: {
+      status: 0
     }
   });
 }
@@ -29,13 +29,6 @@ export function finishOrder(orderId) {
   return axios({
     method: "patch",
     url: `${baseUrl}/${orderId}`,
-  });
-}
-export function getAllOrdersOnGoing(employeeId) {
-  return axios.get(baseUrl,{
-    params:{
-      employeeId:employeeId,
-    }
   });
 }
 

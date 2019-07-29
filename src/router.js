@@ -40,6 +40,7 @@ export default new Router({
           name: 'detail',
           component: Detail,
           props: true,
+          meta: { isShowBack: true }
         },
         {
           path: '/history',

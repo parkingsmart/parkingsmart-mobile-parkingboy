@@ -4,9 +4,8 @@
       <van-cell
         v-for="order in ordersOnGoing"
         :key="order.id"
-        :title="order.carNumebr"
+        :title="order.carNumber"
         :label="order.appointTime |formatTime"
-        icon="logistics"
         size="large"
         is-link
         :to="{ name:'detail',params:{orderId:order.id} }"
@@ -16,7 +15,8 @@
 </template>
 
 <script>
-import { getAllOrdersOnGoing } from "../../apis/orders";
+import moment from "moment";
+import { getAllOrdersOnGoing } from "../../apis/employee";
 export default {
   name: "List",
   data() {
@@ -35,10 +35,18 @@ export default {
 
   methods: {
     async initData() {
-      this.ordersOnGoing = (await getAllOrdersOnGoing()).orders;
+      this.ordersOnGoing = await getAllOrdersOnGoing(
+        this.$store.state.employee.id
+      );
+      console.log(this.ordersOnGoing);
     }
   },
-
+  filters: {
+    formatTime: function(value) {
+      if (!value) return "";
+      return moment(value).format("YYYY-MM-DD HH:mm:ss");
+    }
+  },
   watch: {}
 };
 </script>
