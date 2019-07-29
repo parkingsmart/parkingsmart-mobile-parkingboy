@@ -1,39 +1,37 @@
-import { Notify,Loading  } from 'vant';
+import { Notify, Toast } from 'vant';
 
+const _toast = Symbol('_toast');
 const [_option, _promise] = [Symbol('_option'), Symbol('_promise')];
 const [_errorHandle, _successHandle] = [Symbol('_errorHandle'), Symbol('_successHandle')];
-
-const loadingOption = {
-  lock: true,
-  text: 'Loading',
-  fullscreen: true,
-  background: 'rgba(0, 0, 0, 0.3)'
-};
 
 const defaultOption = {
   showMsg: false,
   errorMsg: '系统错误',
   successMsg: null,
 
-  showLoading: false,
-  loadingOption: loadingOption
+  showLoading: false
 };
 
 function successHandle() {
   if (this[_option].showMsg && this[_option].successMsg) {
-    Notify.success(this[_option].successMsg);
+    Notify({
+      message: this[_option].successMsg,
+      duration: 1000,
+      background: '#1989fa'
+    });
   }
 }
 
 function errorHandle(err) {
   if (this[_option].showMsg) {
     const message = err && err.message ? err.message : this[_option].errorMsg;
-    Notify.error(message);
+    Notify(message);
   }
 }
 
 class RequestHandler {
   constructor(promise, option = {}) {
+    this[_toast] = Toast;
     this[_promise] = promise;
     this[_option] = Object.assign({}, defaultOption, option);
     this[_errorHandle] = errorHandle;
@@ -43,10 +41,14 @@ class RequestHandler {
   async exec() {
     let ret = null;
     let error = null;
-    let loading = null;
 
     if (this[_option].showLoading) {
-      loading = Loading.service(this[_option].loadingOption);
+      this[_toast]({
+        type: 'loading',
+        forbidClick: true,
+        duration: 0,
+        className: 'van-loading-custom',
+      });
     }
 
     try {
@@ -60,7 +62,7 @@ class RequestHandler {
       this[_errorHandle](err);
     } finally {
       if (this[_option].showLoading) {
-        loading.close();
+        this[_toast].clear();
       }
     }
 
@@ -78,9 +80,8 @@ class RequestHandler {
     return this;
   }
 
-  loading(options = null) {
+  loading() {
     this[_option].showLoading = true;
-    this[_option].loadingOption = options || this[_option].loadingOption;
     return this;
   }
 }
