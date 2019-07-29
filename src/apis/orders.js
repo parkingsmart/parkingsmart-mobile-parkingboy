@@ -31,4 +31,10 @@ export function updateOrderStatus(orderId,statusCode) {
     url: `${baseUrl}/${orderId}?status=${statusCode}`,
   });
 }
+export function getOrderById(orderId) {
+  return axios({
+    method: "get",
+    url: `${baseUrl}/${orderId}`,
+  });
+}
 

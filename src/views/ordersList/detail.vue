@@ -19,14 +19,22 @@
       </van-dropdown-item>
     </van-dropdown-menu>
     <div class="btn">
-      <van-button size="large" type="info" @click="updateStatus" :isdisable="isdisable">完成停车</van-button>
+      <van-button size="large" type="info" @click="updateStatus" :disabled="isdisable">
+        <template>
+          <span>{{ getStatus() }}</span>
+        </template>
+      </van-button>
     </div>
   </div>
 </template>
 
 <script>
 import { getParkingLots } from "../../apis/employee";
-import { updateOrderParkingLot, updateOrderStatus } from "../../apis/orders";
+import {
+  updateOrderParkingLot,
+  updateOrderStatus,
+  getOrderById
+} from "../../apis/orders";
 import requestHandler from "../../utils/requestHandler";
 export default {
   name: "Detali",
@@ -37,7 +45,8 @@ export default {
       parkingLotKf: {},
       parkingLotName: "",
       defaultTitle: "请选择停车场",
-      isdisable:false,
+      isdisable: false,
+      orderDetail: {}
     };
   },
 
@@ -47,6 +56,8 @@ export default {
 
   async created() {
     this.parkingLots = await getParkingLots(this.$store.state.employee.id);
+    this.orderDetail = await getOrderById(this.orderId);
+    this.getParkingLotName();
   },
   mounted() {},
 
@@ -56,7 +67,6 @@ export default {
       this.parkingLotKf = this.parkingLots.find(
         item => item.name === parkingLotName
       );
-      console.log("this.parkingLotKf", this.parkingLotKf);
       await requestHandler
         .invoke(updateOrderParkingLot(this.orderId, this.parkingLotKf))
         .msg("修改成功", "修改失败")
@@ -68,13 +78,43 @@ export default {
     fomatCapacity(parkingLot) {
       return parkingLot.size - parkingLot.parkedNum;
     },
+    getStatus() {
+      let result;
+      switch (this.orderDetail.status) {
+      case 1:
+        result = "完成停车";
+        this.isdisable = false;
+        break;
+      case 2:
+        result = "完成取车";
+        this.isdisable = true;
+        break;
+      case 3:
+        result = "完成取车";
+        this.isdisable = false;
+        break;
+      default:
+        result = "订单已完成";
+        this.isdisable = true;
+        break;
+      }
+      return result;
+    },
     async updateStatus() {
       await requestHandler
-        .invoke(updateOrderStatus(this.orderId, 2))
-        .msg("完成停车", "失败")
+        .invoke(updateOrderStatus(this.orderId, ++this.orderDetail.status))
+        .msg("完成停车", "操作失败")
         .loading()
         .exec();
       this.isdisable = true;
+    },
+    getParkingLotName() {
+      let parkingLotId = this.orderDetail.parkingLotId;
+      if (this.parkingLots.length > 0 && this.orderDetail.parkingLotId) {
+        this.defaultTitle = this.parkingLots.find(item => {
+          return item.id === parkingLotId;
+        }).name;
+      }
     }
   },
 
