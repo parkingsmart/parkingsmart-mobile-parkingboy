@@ -1,9 +1,13 @@
 import axios from './base.js';
 
-const baseUrl = '/api/orders/newOrders';
+const baseUrl = '/api/orders';
 
 export function getAllNewOrders() {
-  return axios.get(baseUrl);
+  return axios.get(baseUrl,{
+    params:{
+      status:0
+    }
+  });
 }
 
 export function grabOrderById(orderId, employee) {
@@ -27,3 +31,11 @@ export function finishOrder(orderId) {
     url: `${baseUrl}/${orderId}`,
   });
 }
+export function getAllOrdersOnGoing(employeeId) {
+  return axios.get(baseUrl,{
+    params:{
+      employeeId:employeeId,
+    }
+  });
+}
+
