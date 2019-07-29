@@ -38,7 +38,6 @@ export default {
       this.ordersOnGoing = await getAllOrdersOnGoing(
         this.$store.state.employee.id
       );
-      console.log(this.ordersOnGoing);
     }
   },
   filters: {
