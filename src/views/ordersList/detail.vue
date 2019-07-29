@@ -74,7 +74,7 @@ export default {
         .msg("完成停车", "失败")
         .loading()
         .exec();
-      this.isdisable = false;
+      this.isdisable = true;
     }
   },
 
