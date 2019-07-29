@@ -14,23 +14,5 @@ export default {
       isShow:true
     };
   },
-
-  components: {},
-
-  computed: {},
-
-  created() {},
-
-  beforeMount() {},
-
-  mounted() {},
-
-  methods: {
-
-  },
-
-  watch: {}
 };
 </script>
-<style lang='' scoped>
-</style>
