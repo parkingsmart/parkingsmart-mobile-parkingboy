@@ -1,18 +1,20 @@
 <template>
   <div class="order">
-    <van-cell
-      v-for="order in orders"
-      :key="order.id"
-      :title="order.carNumebr"
-      :label="formatTime(order)"
-      icon="logistics"
-      size="large"
-      @click="grabOrder(order)"
-    >
-      <template slot="default">
-        <van-button round type="info">抢单</van-button>
-      </template>
-    </van-cell>
+    <van-pull-refresh v-model="isLoading" @refresh="initData" class="borad">
+      <van-cell
+        v-for="order in orders"
+        :key="order.id"
+        :title="order.carNumebr"
+        :label="formatTime(order)"
+        icon="logistics"
+        size="large"
+        @click="grabOrder(order)"
+      >
+        <template slot="default">
+          <van-button round type="info">抢单</van-button>
+        </template>
+      </van-cell>
+    </van-pull-refresh>
   </div>
 </template>
 
@@ -24,21 +26,8 @@ export default {
   props: [""],
   data() {
     return {
-      orders: [
-        {
-          id: "12312",
-          carNumber: "66666",
-          parkTime: "10:20",
-          type: 1
-        },
-        {
-          id: "12312313",
-          carNumber: "77777",
-          parkTime: "10:20",
-          fetchTime: "19:20",
-          type: 0
-        }
-      ]
+      orders: [],
+      isLoading: false
     };
   },
 
@@ -64,19 +53,22 @@ export default {
     },
     async initData() {
       this.orders = (await getAllNewOrders()).newOrders;
+      this.isLoading = false;
     },
     grabOrder(order) {
-      console.log(order);
-      grabOrderById(order.id,this.$store.state.employee)
+      grabOrderById(order.id, this.$store.state.employee)
         .then(() => {
           order.employeeId = this.$store.state.employee.id;
-          this.$store.commit('saveCurrentOrder',order);
-          console.log("this.$store.state.currentOrder:",this.$store.state.currentOrder);
+          this.$store.commit("saveCurrentOrder", order);
+          this.$toast({message:"抢单成功",type:"success",forbidClick:true,onClose:this.$router.push({ name: "place" })});
+          console.log(
+            "this.$store.state.currentOrder:",
+            this.$store.state.currentOrder
+          );
         })
         .catch(err => {
           console.log(err);
         });
-      this.$router.push({ name: "place" });
     },
     formatTime(order) {
       let time = moment(time).format("HH:mm");
@@ -87,6 +79,9 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+.borad{
+  height:580px;
+}
 .order {
   text-align: left;
 }

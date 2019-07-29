@@ -1,33 +1,29 @@
 import axios from './base.js';
 
-const baseUrl = '/api/orders/newOrders/';
+const baseUrl = '/api/orders/newOrders';
 
-export function getAllNewOrders (){
+export function getAllNewOrders() {
   return axios.get(baseUrl);
 }
 
-export async function grabOrderById(orderId,employee){
-  return await axios({
+export function grabOrderById(orderId, employee) {
+  return axios({
     method: "put",
-    url: baseUrl + orderId,
-    data: JSON.stringify(employee),
-    headers: { 'Content-Type': 'application/json;charset=UTF-8' }
+    url: `${baseUrl}/${orderId}`,
+    data: employee,
   });
 }
 
-export async function updateOrderParkingLot(orderId,parkingLot){
-  await axios({
+export function updateOrderParkingLot(orderId, parkingLot) {
+  return axios({
     method: "put",
-    url: baseUrl + orderId + '/parkinglot',
-    data: JSON.stringify(parkingLot),
-    headers: { 'Content-Type': 'application/json;charset=UTF-8' }
+    url: `${baseUrl}/${orderId}/parkinglot`,
+    data: parkingLot,
   });
 }
-export async function finishOrder(orderId){
-  await axios({
+export function finishOrder(orderId) {
+  return axios({
     method: "patch",
-    url: baseUrl + orderId,
-    // data: JSON.stringify(parkingLot),
-    // headers: { 'Content-Type': 'application/json;charset=UTF-8' }
+    url: `${baseUrl}/${orderId}`,
   });
 }

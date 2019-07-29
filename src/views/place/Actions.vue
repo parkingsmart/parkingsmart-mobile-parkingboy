@@ -12,12 +12,15 @@
 </template>
 
 <script>
-import { finishOrder } from '../../apis/orders';
+import { getParkingLots } from "../../apis/parkingLot";
+import { finishOrder } from "../../apis/orders";
+
 export default {
   name: "Actions",
   props: [""],
   data() {
     return {
+      existParkingLot: false
     };
   },
 
@@ -29,18 +32,32 @@ export default {
     // }
   },
 
-  created() {},
+  created() {
+    this.getParkingLot();
+  },
 
   beforeMount() {},
 
   mounted() {},
 
   methods: {
-    completeOrder(){
-      if(this.$store.state.currentOrder !== null){
+    completeOrder() {
+      if (this.$store.state.currentOrder !== null) {
         finishOrder(this.$store.state.currentOrder.id);
       }
-
+    },
+    async getParkingLot() {
+      if (!this.$store.state.employee) {
+        this.$router.push({ name: "login" });
+      } else {
+        let parkingLots = await getParkingLots(this.$store.state.employee.id);
+        if (parkingLots.length !== 0) {
+          this.$store.state.parkingLots = parkingLots;
+          this.existParkingLot = true;
+        } else {
+          this.existParkingLot = false;
+        }
+      }
     }
   },
 
