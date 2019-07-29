@@ -25,10 +25,10 @@ export function updateOrderParkingLot(orderId, parkingLot) {
     data: parkingLot,
   });
 }
-export function finishOrder(orderId) {
+export function updateOrderStatus(orderId,statusCode) {
   return axios({
     method: "patch",
-    url: `${baseUrl}/${orderId}`,
+    url: `${baseUrl}/${orderId}?status=${statusCode}`,
   });
 }
 
