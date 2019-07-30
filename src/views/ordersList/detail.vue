@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-dropdown-menu>
-      <van-dropdown-item :title="defaultTitle" ref="item">
+      <van-dropdown-item :title="defaultTitle" ref="item" :disabled="orderDetail.status>1">
         <van-radio-group v-model="parkingLotName">
           <van-cell-group>
             <van-cell
@@ -18,12 +18,19 @@
         <van-button block type="info" @click="seleceParkingLot">确认</van-button>
       </van-dropdown-item>
     </van-dropdown-menu>
-    <div class="btn">
-      <van-button size="large" type="info" @click="updateStatus" :disabled="isdisable">
-        <template>
-          <span>{{ getStatus() }}</span>
-        </template>
-      </van-button>
+    <div>
+      <van-cell
+        :key="orderDetail.id"
+        :title="orderDetail.status"
+        :label="orderDetail.carNumber">
+      </van-cell>
+      <div class="btn">
+        <van-button size="large" type="info" @click="updateStatus" :disabled="isdisable">
+          <template>
+            <span>{{ getStatus() }}</span>
+          </template>
+        </van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -42,7 +49,7 @@ export default {
   data() {
     return {
       parkingLots: [],
-      parkingLotKf: {},
+      parkingLotKf: null,
       parkingLotName: "",
       defaultTitle: "请选择停车场",
       isdisable: false,
@@ -83,7 +90,7 @@ export default {
       switch (this.orderDetail.status) {
       case 1:
         result = "完成停车";
-        this.isdisable = false;
+        this.isdisable = this.parkingLotKf ? false : true;
         break;
       case 2:
         result = "完成取车";
@@ -111,9 +118,11 @@ export default {
     getParkingLotName() {
       let parkingLotId = this.orderDetail.parkingLotId;
       if (this.parkingLots.length > 0 && this.orderDetail.parkingLotId) {
-        this.defaultTitle = this.parkingLots.find(item => {
+        this.parkingLotKf = this.parkingLots.find(item => {
           return item.id === parkingLotId;
-        }).name;
+        });
+        this.defaultTitle = this.parkingLotKf.name;
+        this.parkingLotName = this.defaultTitle;
       }
     }
   },
