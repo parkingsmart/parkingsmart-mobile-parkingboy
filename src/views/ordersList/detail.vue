@@ -63,7 +63,7 @@ export default {
   computed: {},
 
   async created() {
-    this.parkingLots = await getParkingLots(this.$store.state.employee.id);
+    this.parkingLots = await getParkingLots(this.$store.getters.id);
     this.orderDetail = await getOrderById(this.orderId);
     this.formatDiaplay();
   },
@@ -102,7 +102,7 @@ export default {
         this.isdisable = false;
         break;
       default:
-        result = "订单已完成";
+        result = "订单待支付";
         this.isdisable = true;
         break;
       }

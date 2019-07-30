@@ -1,6 +1,7 @@
 <template>
   <div class="order">
     <van-pull-refresh v-model="isLoading" @refresh="initData" class="borad">
+      <span v-show="isShowMess">暂无更多订单..</span>
       <van-cell
         v-for="(order,index) in orders"
         :key="order.id"
@@ -12,7 +13,7 @@
           <span class="carNo">{{ order.carNumber }}</span>
         </template>
         <template slot="icon">
-          <img class="cell-icon" src="../assets/img/smallcar.png"/>
+          <img class="cell-icon" src="../assets/img/smallcar.png" />
           <span class="address">{{ order.appointAddress }}</span>
         </template>
         <template slot="default">
@@ -34,12 +35,15 @@ export default {
     return {
       ws: null,
       orders: [],
-      isLoading: false
+      isLoading: false,
+      isShowMess: false
     };
   },
 
   created() {
-    this.ws = new WebSocket(`/api/employees/${this.$store.state.employee.id}/orders`);
+    this.ws = new WebSocket(
+      `/api/employees/${this.$store.state.employee.id}/orders`
+    );
     this.ws.onmessage = this.wsHandler;
   },
 
@@ -54,9 +58,12 @@ export default {
         .msg(null, "获取失败")
         .loading()
         .exec()).orders;
+      if (this.orders.length === 0) {
+        this.isShowMess = true;
+      }
       this.isLoading = false;
     },
-    async grabOrder(order,index) {
+    async grabOrder(order, index) {
       await requestHandler
         .invoke(grabOrderById(order.id, this.$store.state.employee))
         .msg(null, "您手慢了")
@@ -71,11 +78,11 @@ export default {
           this.$router.push({ name: "detail", params: { orderId: order.id } });
         })
         .catch(() => {
-          this.orders.splice(index,1);
+          this.orders.splice(index, 1);
         });
     },
     async wsHandler(res) {
-      if (res.data === '1') {
+      if (res.data === "1") {
         await this.initData();
       }
     }
