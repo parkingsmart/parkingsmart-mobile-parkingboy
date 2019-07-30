@@ -43,9 +43,7 @@ export default {
 
   methods: {
     async initData() {
-      this.ordersOnGoing = await getAllOrdersOnGoing(
-        this.$store.state.employee.id
-      );
+      this.ordersOnGoing = await getAllOrdersOnGoing(this.$store.getters.id);
     },
     getStatus(order) {
       let result = {
@@ -76,7 +74,7 @@ export default {
   filters: {
     formatTime: function(value) {
       if (!value) return "";
-      return '预约时间: ' + moment(value).format("HH:mm");
+      return "预约时间: " + moment(value).format("HH:mm");
     }
   },
   watch: {}
