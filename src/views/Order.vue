@@ -38,7 +38,6 @@ export default {
   },
 
   created() {
-    this.checkExistUser();
   },
 
   mounted() {
@@ -46,15 +45,10 @@ export default {
   },
 
   methods: {
-    checkExistUser() {
-      if (!this.$store.state.employee) {
-        this.$router.push({ name: "login" });
-      }
-    },
     async initData() {
       this.orders = (await requestHandler
         .invoke(getAllNewOrders())
-        .msg("获取订单列表", "获取失败")
+        .msg(null, "获取失败")
         .loading()
         .exec()).orders;
       this.isLoading = false;

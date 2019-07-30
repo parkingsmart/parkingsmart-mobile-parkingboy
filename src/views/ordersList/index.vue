@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <van-cell-group>
       <van-cell
         v-for="order in ordersOnGoing"
@@ -10,6 +10,9 @@
         is-link
         :to="{ name:'detail',params:{orderId:order.id} }"
       >
+        <template slot="icon">
+          <span class="address">{{ order.appointAddress }}</span>
+        </template>
         <template slot="default">
           <van-tag round :type="getStatus(order).type" class="cell-icon">{{ getStatus(order).text }}</van-tag>
         </template>
@@ -56,15 +59,15 @@ export default {
         break;
       case 2:
         result.text = "已停车";
-        result.type = "danger";
+        result.type = "success";
         break;
       case 3:
-        result.text = "需取车";
+        result.text = "待取车";
         result.type = "danger";
         break;
       case 4:
         result.text = "待支付";
-        result.type = "danger";
+        result.type = "primary";
         break;
       }
       return result;
@@ -73,13 +76,23 @@ export default {
   filters: {
     formatTime: function(value) {
       if (!value) return "";
-      return moment(value).format("YYYY-MM-DD HH:mm:ss");
+      return '预约时间: ' + moment(value).format("HH:mm");
     }
   },
   watch: {}
 };
 </script>
 <style lang='scss' scoped>
+.address {
+  font-weight: 600;
+  display: inline-block;
+  padding-right: 20px;
+  min-width: 100px;
+  color: #4595e6;
+}
+.content {
+  background-color: #f8f8f8;
+}
 /deep/.van-cell__right-icon {
   line-height: 45px;
 }
