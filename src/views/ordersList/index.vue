@@ -9,6 +9,7 @@
         size="large"
         is-link
         :to="{ name:'detail',params:{orderId:order.id} }"
+        icon="location-o"
       ></van-cell>
     </van-cell-group>
   </div>
