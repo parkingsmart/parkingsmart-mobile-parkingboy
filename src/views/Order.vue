@@ -39,7 +39,6 @@ export default {
   },
 
   created() {
-    this.checkExistUser();
     this.ws = new WebSocket(`/api/employees/${this.$store.state.employee.id}/orders`);
     this.ws.onmessage = this.wsHandler;
   },
