@@ -57,7 +57,7 @@ export default {
     async initData() {
       this.orders = (await requestHandler
         .invoke(getAllNewOrders())
-        .msg("获取订单列表", "获取失败")
+        .msg(null, "获取失败")
         .loading()
         .exec()).orders;
       this.isLoading = false;
@@ -65,7 +65,7 @@ export default {
     async grabOrder(order,index) {
       await requestHandler
         .invoke(grabOrderById(order.id, this.$store.state.employee))
-        .msg("抢单成功", "您手慢了")
+        .msg(null, "您手慢了")
         .loading()
         .exec();
 
