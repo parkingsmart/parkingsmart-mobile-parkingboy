@@ -59,7 +59,7 @@ export default {
     async grabOrder(order,index) {
       await requestHandler
         .invoke(grabOrderById(order.id, this.$store.state.employee))
-        .msg("抢单成功", "您手慢了")
+        .msg(null, "您手慢了")
         .loading()
         .exec();
 
