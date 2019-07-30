@@ -12,7 +12,7 @@
           <span class="carNo">{{ order.carNumber }}</span>
         </template>
         <template slot="icon">
-          <img class="cell-icon" src="../assets/img/smallcar.png" />
+          <img class="cell-icon" src="../assets/img/smallcar.png"/>
           <span class="address">{{ order.appointAddress }}</span>
         </template>
         <template slot="default">
