@@ -49,11 +49,6 @@ export default {
   },
 
   methods: {
-    checkExistUser() {
-      if (!this.$store.state.employee) {
-        this.$router.push({ name: "login" });
-      }
-    },
     async initData() {
       this.orders = (await requestHandler
         .invoke(getAllNewOrders())
