@@ -5,7 +5,5 @@ export default {
     state.employee = employee;
     setToken(employee.id);
   },
-  saveCurrentOrder(state, order) {
-    state.currentOrder = order;
-  }
+
 };
