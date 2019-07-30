@@ -1,5 +1,5 @@
 <template>
-  <div class="loginStyle">
+  <!-- <div class="loginStyle">
     <div class="header">
       <span class="head">Parking Smart</span>
     </div>
@@ -25,14 +25,27 @@
         <van-button round type="info" size="large" class="login-btn" @click="submit">登录</van-button>
       </van-cell-group>
     </div>
+  </div>-->
+  <div>
+    <div class="main-pane">
+      <IconBox class="icon-box" />
+      <div class="input-group">
+        <van-field v-model="username" label="用户名" placeholder="id/phone/email" autocomplete="off" />
+        <van-field v-model="password" type="password" label="密码" autocomplete="off" />
+      </div>
+      <van-button class="login" @click="submit">登录</van-button>
+    </div>
   </div>
 </template>
 
 <script>
 import { login } from "../apis/login";
+import IconBox from "../components/IconBox";
 export default {
   name: "Login",
-  props: [""],
+  components: {
+    IconBox
+  },
   data() {
     return {
       username: "",
@@ -65,60 +78,40 @@ export default {
         }
       }
     }
-  },
-
-  watch: {}
+  }
 };
 </script>
 <style lang='scss' scoped>
-.loginStyle {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-image: url('../assets/bg.jpg');
-}
+.main-pane {
+  height: 55vh;
+  text-align: center;
 
-.loginCenter {
-  /deep/ .van-cell-group {
-    background-color: transparent;
+  /deep/ .van-cell {
+    width: 80%;
+    margin: 0 auto;
+    padding-right: 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(18, 150, 219);
   }
 
-  /deep/ .van-field__label {
-    width: 20vw;
-  }
-}
-
-.header {
-  width: 100vw;
-  position: absolute;
-  text-align: center;
-  background-color: rgba(0,0,0,0.2);
-}
-
-.content {
-  text-align: center;
-}
-
-[class*="van-hairline"]::after {
-  border: none;
-}
-
-.input-box {
-  width: 80vw;
-  margin: 15px 0;
-  background-color: rgba(0,0,0,0.2);
-
-  /deep/ span, /deep/ input, /deep/ ::-webkit-input-placeholder {
+  /deep/ .van-button {
     color: white;
+    border-radius: 10vw;
+    border-color: rgb(18, 150, 219);
+    background-color: rgb(18, 150, 219);
   }
 }
-
-.icon {
-  width: 25vw;
-  height: 25vw;
+.main-pane {
+  margin-top: 30%;
 }
-
-.login-btn {
+.input-group {
   margin-top: 30px;
-  background-color: rgb(69, 149, 230);
+}
+.login {
+  width: 60vw;
+  color: white;
+  margin-top: 10vh;
+  border-radius: 10vw;
+  background: linear-gradient(to right, #0079c1, rgb(18, 150, 219));
 }
 </style>
