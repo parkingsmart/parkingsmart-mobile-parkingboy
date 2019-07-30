@@ -1,6 +1,6 @@
 
   .header{
-    background-color: #1b82d2;
+    background: linear-gradient(to right, #0079c1, rgb(18, 150, 219));
     height: 50px;
   }
   .head{
