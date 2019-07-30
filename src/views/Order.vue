@@ -2,14 +2,19 @@
   <div class="order">
     <van-pull-refresh v-model="isLoading" @refresh="initData" class="borad">
       <van-cell
-        v-for="order in orders"
+        v-for="(order,index) in orders"
         :key="order.id"
-        :title="order.carNumber"
-        :label="order.appointTime |formatTime"
-        icon="logistics"
+        :label="order.appointTime | formatTime"
         size="large"
-        @click="grabOrder(order)"
+        @click="grabOrder(order,index)"
       >
+        <template slot="title">
+          <span class="carNo">{{ order.carNumber }}</span>
+        </template>
+        <template slot="icon">
+          <img class="cell-icon" src="../assets/img/smallcar.png" />
+          <span class="address">{{ order.appointAddress }}</span>
+        </template>
         <template slot="default">
           <van-button round type="info">抢单</van-button>
         </template>
@@ -54,7 +59,7 @@ export default {
         .exec()).orders;
       this.isLoading = false;
     },
-    async grabOrder(order) {
+    async grabOrder(order,index) {
       await requestHandler
         .invoke(grabOrderById(order.id, this.$store.state.employee))
         .msg("抢单成功", "您手慢了")
@@ -68,18 +73,32 @@ export default {
         .then(() => {
           this.$router.push({ name: "detail", params: { orderId: order.id } });
         })
-        .catch(() => {});
+        .catch(() => {
+          this.orders.splice(index,1);
+        });
     }
   },
   filters: {
     formatTime: function(time) {
       if (!time) return "";
-      return moment(time).format("YYYY-MM-DD HH:mm:ss");
+      return moment(time).format("MM-DD HH:mm:ss");
     }
   }
 };
 </script>
 <style lang='scss' scoped>
+.address {
+  font-weight: 600;
+  display: inline-block;
+  padding-right: 20px;
+  max-width: 100px;
+  color: #4595e6;
+}
+
+.cell-icon {
+  height: 50px;
+  margin-right: 10px;
+}
 .borad {
   height: 580px;
 }
