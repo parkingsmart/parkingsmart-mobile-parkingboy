@@ -32,6 +32,7 @@ export default {
   props: [""],
   data() {
     return {
+      ws: null,
       orders: [],
       isLoading: false
     };
@@ -39,6 +40,8 @@ export default {
 
   created() {
     this.checkExistUser();
+    this.ws = new WebSocket(`/api/employees/${this.$store.state.employee.id}/orders`);
+    this.ws.onmessage = this.wsHandler;
   },
 
   mounted() {
@@ -76,6 +79,11 @@ export default {
         .catch(() => {
           this.orders.splice(index,1);
         });
+    },
+    async wsHandler(res) {
+      if (res.data === '1') {
+        await this.initData();
+      }
     }
   },
   filters: {
