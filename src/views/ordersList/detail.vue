@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-dropdown-menu>
-      <van-dropdown-item :title="defaultTitle" ref="item" :disabled="orderDetail.status>1">
+      <van-dropdown-item :title="defaultTitle" ref="item" :disabled="isDropdown">
         <van-radio-group v-model="parkingLotName">
           <van-cell-group>
             <van-cell
@@ -53,6 +53,7 @@ export default {
       parkingLotName: "",
       defaultTitle: "请选择停车场",
       isdisable: false,
+      isDropdown:true,
       orderDetail: {}
     };
   },
@@ -64,7 +65,7 @@ export default {
   async created() {
     this.parkingLots = await getParkingLots(this.$store.state.employee.id);
     this.orderDetail = await getOrderById(this.orderId);
-    this.getParkingLotName();
+    this.formatDiaplay();
   },
   mounted() {},
 
@@ -115,7 +116,7 @@ export default {
         .exec();
       this.isdisable = true;
     },
-    getParkingLotName() {
+    formatDiaplay() {
       let parkingLotId = this.orderDetail.parkingLotId;
       if (this.parkingLots.length > 0 && this.orderDetail.parkingLotId) {
         this.parkingLotKf = this.parkingLots.find(item => {
@@ -123,6 +124,9 @@ export default {
         });
         this.defaultTitle = this.parkingLotKf.name;
         this.parkingLotName = this.defaultTitle;
+      }
+      if(this.orderDetail.status < 2){
+        this.isDropdown = false;
       }
     }
   },
