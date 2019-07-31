@@ -21,12 +21,23 @@
         </template>
       </van-cell>
     </van-pull-refresh>
+    <van-dialog
+      v-model="showDialog"
+      show-cancel-button
+      @confirm="dialogConfirm"
+      @cancel="dialogCancel"
+      class="dialogContent"
+    >
+      <img class="icon" src="../assets/img/successIcon.png" />
+      <p class="successMess">抢单成功!</p>
+      <p>是否现在为用户选择停车场？</p>
+    </van-dialog>
   </div>
 </template>
 
 <script>
 import moment from "moment";
-import Config from '../config';
+import Config from "../config";
 import { getAllNewOrders, grabOrderById } from "../apis/orders";
 import requestHandler from "../utils/requestHandler";
 export default {
@@ -37,7 +48,12 @@ export default {
       ws: null,
       orders: [],
       isLoading: false,
-      isShowMess: false
+      isShowMess: false,
+      showDialog: false,
+      currentOrder: {
+        id: "",
+        index: ""
+      }
     };
   },
 
@@ -62,26 +78,28 @@ export default {
       if (this.orders.length === 0) {
         this.isShowMess = true;
       }
-      this.$toast({message:'刷新成功',duration:1000});
+      this.$toast({ message: "刷新成功", duration: 1000 });
       this.isLoading = false;
     },
     async grabOrder(order, index) {
+      this.currentOrderId = {};
       await requestHandler
         .invoke(grabOrderById(order.id, this.$store.state.employee))
         .msg(null, "您手慢了")
         .loading()
         .exec();
-
-      this.$dialog
-        .confirm({
-          message: "是否现在选择停车位？"
-        })
-        .then(() => {
-          this.$router.push({ name: "detail", params: { orderId: order.id } });
-        })
-        .catch(() => {
-          this.orders.splice(index, 1);
-        });
+      this.currentOrder.id = order.id;
+      this.currentOrder.index = index;
+      this.showDialog = true;
+    },
+    dialogConfirm() {
+      this.$router.push({
+        name: "detail",
+        params: { orderId: this.currentOrder.id }
+      });
+    },
+    dialogCancel() {
+      this.orders.splice(this.currentOrder.index, 1);
     },
     async wsHandler(res) {
       if (res.data === "1") {
@@ -116,7 +134,18 @@ export default {
 .order {
   text-align: left;
 }
-/deep/.van-pull-refresh__track{
+/deep/.van-pull-refresh__track {
   height: 300px;
+}
+.dialogContent {
+  text-align: center;
+  padding-top: 30px;
+  & .icon{
+    height:50px;
+  }
+  & .successMess{
+    color: #5cad5c;
+    margin-top: 0px;
+  }
 }
 </style>

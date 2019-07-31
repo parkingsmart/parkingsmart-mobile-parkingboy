@@ -115,7 +115,7 @@ export default {
     async updateStatus() {
       await requestHandler
         .invoke(updateOrderStatus(this.orderId, ++this.orderDetail.status))
-        .msg("完成停车", "操作失败")
+        .msg(null, "操作失败")
         .loading()
         .exec();
       this.isdisable = true;
