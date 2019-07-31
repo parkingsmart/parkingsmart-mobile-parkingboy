@@ -42,7 +42,7 @@ export default {
 
   created() {
     this.ws = new WebSocket(
-      `/api/employees/${this.$store.state.employee.id}/orders`
+      `/api/employees/${this.$store.getters.id}/orders`
     );
     this.ws.onmessage = this.wsHandler;
   },
