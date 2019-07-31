@@ -77,7 +77,6 @@ export default {
   async created() {
     this.parkingLots = await getParkingLots(this.$store.getters.id);
     this.orderDetail = await getOrderById(this.orderId);
-    console.log(this.orderDetail);
     this.formatDiaplay();
   },
   mounted() {},
@@ -157,10 +156,13 @@ export default {
     async updateStatus() {
       await requestHandler
         .invoke(updateOrderStatus(this.orderId, this.orderDetail.status + 1))
-        .msg(null, "操作失败")
+        .msg("操作成功", "操作失败")
         .loading()
         .exec();
       this.isdisable = true;
+      this.parkingLots = await getParkingLots(this.$store.getters.id);
+      this.orderDetail = await getOrderById(this.orderId);
+      this.formatDiaplay();
     },
 
     formatDiaplay() {
