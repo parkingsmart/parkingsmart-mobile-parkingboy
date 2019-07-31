@@ -30,7 +30,7 @@
     >
       <img class="icon" src="../assets/img/successIcon.png" />
       <p class="successMess">抢单成功!</p>
-      <p>是否现在为用户选择停车场？</p>
+      <p>是否现在为客户选择停车场？</p>
     </van-dialog>
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
       showDialog: false,
       currentOrder: {
         id: "",
-        index: ""
+        index: "",
       }
     };
   },

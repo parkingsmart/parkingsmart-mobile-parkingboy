@@ -1,6 +1,7 @@
 <template>
   <div>
     <van-dropdown-menu>
+      <span class="select-cell">选择停车场：</span>
       <van-dropdown-item :title="defaultTitle" ref="item" :disabled="isDropdown">
         <van-radio-group v-model="parkingLotName">
           <van-cell-group>
@@ -18,25 +19,35 @@
         <van-button block type="info" @click="seleceParkingLot">确认</van-button>
       </van-dropdown-item>
     </van-dropdown-menu>
-    <div>
-      <van-cell
-        :key="orderDetail.id"
-        :title="orderDetail.status"
-        :label="orderDetail.carNumber">
-      </van-cell>
-      <div class="btn">
-        <van-button size="large" type="info" @click="updateStatus" :disabled="isdisable">
-          <template>
-            <span>{{ getStatus() }}</span>
-          </template>
-        </van-button>
-      </div>
+    <van-cell title="订单号：" :value="orderDetail.id"></van-cell>
+    <van-cell title="订单状态：">
+      <template slot="default">
+        <van-tag round :type="getStatusText().type" class="cell-icon">{{ getStatusText().text }}</van-tag>
+      </template>
+    </van-cell>
+
+    <van-cell title="车牌号：" :value="orderDetail.carNumber"></van-cell>
+    <van-cell title="预约时间：" :value="orderDetail.appointTime|formatTime"></van-cell>
+    <van-cell title="预约地点：" :value="orderDetail.appointAddress"></van-cell>
+    <div class="btn">
+      <van-button
+        size="large"
+        type="info"
+        v-show="btnIsShow"
+        @click="updateStatus"
+        :disabled="isdisable"
+      >
+        <template>
+          <span>{{ getBtnText() }}</span>
+        </template>
+      </van-button>
     </div>
   </div>
 </template>
 
 <script>
 import { getParkingLots } from "../../apis/employee";
+import moment from "moment";
 import {
   updateOrderParkingLot,
   updateOrderStatus,
@@ -53,7 +64,8 @@ export default {
       parkingLotName: "",
       defaultTitle: "请选择停车场",
       isdisable: false,
-      isDropdown:true,
+      btnIsShow: false,
+      isDropdown: true,
       orderDetail: {}
     };
   },
@@ -65,6 +77,7 @@ export default {
   async created() {
     this.parkingLots = await getParkingLots(this.$store.getters.id);
     this.orderDetail = await getOrderById(this.orderId);
+    console.log(this.orderDetail);
     this.formatDiaplay();
   },
   mounted() {},
@@ -86,40 +99,70 @@ export default {
     fomatCapacity(parkingLot) {
       return parkingLot.size - parkingLot.parkedNum;
     },
-    getStatus() {
-      let result;
+    getStatusText() {
+      let result = {
+        text: "",
+        type: ""
+      };
       switch (this.orderDetail.status) {
       case 1:
-        result = "完成停车";
-        this.isdisable = this.parkingLotKf ? false : true;
+        result.text = "待取车";
+        result.type = "danger";
         break;
       case 2:
-        result = "完成取车";
-        this.isdisable = true;
+        result.text = "已取车";
+        result.type = "primary";
         break;
       case 3:
-        result = "完成取车";
-        this.isdisable = false;
+        result.text = "已停车";
+        result.type = "primary";
         break;
       case 4:
-        result = "订单待支付";
-        this.isdisable = true;
+        result.text = "待交车";
+        result.type = "danger";
         break;
       case 5:
-        result = "订单已支付";
-        this.isdisable = true;
+        result.text = "订单待支付";
+        result.type = "primary";
         break;
       }
       return result;
     },
+    getBtnText() {
+      let btnText = "";
+      switch (this.orderDetail.status) {
+      case 2:
+        btnText = "完成停车";
+        this.btnIsShow = true;
+        this.isdisable = false;
+        break;
+      case 3:
+        btnText = "";
+        this.btnIsShow = false;
+        this.isdisable = true;
+        break;
+      case 4:
+        btnText = "已归还车辆";
+        this.btnIsShow = true;
+        this.isdisable = false;
+        break;
+      case 5:
+        btnText = "";
+        this.btnIsShow = false;
+        this.isdisable = true;
+        break;
+      }
+      return btnText;
+    },
     async updateStatus() {
       await requestHandler
-        .invoke(updateOrderStatus(this.orderId, ++this.orderDetail.status))
+        .invoke(updateOrderStatus(this.orderId, this.orderDetail.status + 1))
         .msg(null, "操作失败")
         .loading()
         .exec();
       this.isdisable = true;
     },
+
     formatDiaplay() {
       let parkingLotId = this.orderDetail.parkingLotId;
       if (this.parkingLots.length > 0 && this.orderDetail.parkingLotId) {
@@ -129,18 +172,33 @@ export default {
         this.defaultTitle = this.parkingLotKf.name;
         this.parkingLotName = this.defaultTitle;
       }
-      if(this.orderDetail.status < 2){
+      if (this.orderDetail.status < 2) {
         this.isDropdown = false;
       }
     }
   },
-
-  watch: {}
+  filters: {
+    formatTime: function(time) {
+      if (!time) return "";
+      return moment(time).format("YYYY年MM月DD日 HH:mm:ss");
+    }
+  }
 };
 </script>
 <style lang='scss' scoped>
+.select-cell {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: #323233;
+  font-size: 14px;
+}
+/deep/.van-ellipsis {
+  font-weight: 600;
+}
+
 .btn {
-  margin-top: 50%;
+  margin-top: 100px;
   padding: 0 20px;
 }
 </style>

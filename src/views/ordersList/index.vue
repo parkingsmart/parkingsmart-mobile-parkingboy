@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+    <p v-show="isShowMess" class="tips">暂无更多订单..</p>
     <van-cell-group>
       <van-cell
         v-for="order in ordersOnGoing"
@@ -10,11 +11,15 @@
         is-link
         :to="{ name:'detail',params:{orderId:order.id} }"
       >
-        <template slot="icon">
+        <!-- <template slot="icon">
           <span class="address">{{ order.appointAddress }}</span>
-        </template>
+        </template> -->
         <template slot="default">
+           <span class="address">{{ order.appointAddress }}</span>
+        </template>
+        <template slot="right-icon">
           <van-tag round :type="getStatus(order).type" class="cell-icon">{{ getStatus(order).text }}</van-tag>
+          <van-icon class="arrow-icon" name="arrow" />
         </template>
       </van-cell>
     </van-cell-group>
@@ -29,7 +34,8 @@ export default {
   data() {
     return {
       ordersOnGoing: [],
-      btnType: "danger"
+      btnType: "danger",
+      isShowMess: false
     };
   },
 
@@ -44,7 +50,6 @@ export default {
   methods: {
     async initData() {
       this.ordersOnGoing = await getAllOrdersOnGoing(this.$store.getters.id);
-      console.log("111", this.ordersOnGoing);
     },
     getStatus(order) {
       let result = {
@@ -53,18 +58,22 @@ export default {
       };
       switch (order.status) {
       case 1:
-        result.text = "待停车";
-        result.type = "danger";
-        break;
-      case 2:
-        result.text = "已停车";
-        result.type = "success";
-        break;
-      case 3:
         result.text = "待取车";
         result.type = "danger";
         break;
+      case 2:
+        result.text = "已取车";
+        result.type = "primary";
+        break;
+      case 3:
+        result.text = "已停车";
+        result.type = "primary";
+        break;
       case 4:
+        result.text = "待交车";
+        result.type = "danger";
+        break;
+      case 5:
         result.text = "待支付";
         result.type = "primary";
         break;
@@ -82,6 +91,10 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+.tips {
+  text-align: center;
+  color: #9f9fa3;
+}
 .address {
   font-weight: 600;
   display: inline-block;
@@ -95,7 +108,18 @@ export default {
 /deep/.van-cell__right-icon {
   line-height: 45px;
 }
+/deep/.van-cell__value{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+}
 .cell-icon {
-  margin-top: 12px;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 10px;
+}
+.arrow-icon{
+  line-height: 45px;
 }
 </style>
