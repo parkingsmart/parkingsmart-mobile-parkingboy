@@ -75,16 +75,16 @@ export default {
         .msg(null, "获取失败")
         .loading()
         .exec()).orders;
-      if (this.orders.length === 0) {
-        this.isShowMess = true;
-      }
+      this.orders.length === 0
+        ? (this.isShowMess = true)
+        : (this.isShowMess = false);
       this.$toast({ message: "成功刷新", duration: 1000 });
       this.isLoading = false;
     },
     async grabOrder(order, index) {
       this.currentOrderId = {};
       await requestHandler
-        .invoke(grabOrderById(order.id, this.$store.state.employee))
+        .invoke(grabOrderById(order.id, this.$store.getters.id))
         .msg(null, "您手慢了")
         .loading()
         .exec();
@@ -116,7 +116,7 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-.tips{
+.tips {
   text-align: center;
   color: #9f9fa3;
 }
@@ -144,10 +144,10 @@ export default {
 .dialogContent {
   text-align: center;
   padding-top: 30px;
-  & .icon{
-    height:50px;
+  & .icon {
+    height: 50px;
   }
-  & .successMess{
+  & .successMess {
     color: #5cad5c;
     margin-top: 0px;
   }
