@@ -1,7 +1,7 @@
 <template>
   <div class="order">
     <van-pull-refresh v-model="isLoading" @refresh="initData" class="borad">
-      <span v-show="isShowMess">暂无更多订单..</span>
+      <p v-show="isShowMess" class="tips">暂无更多订单..</p>
       <van-cell
         v-for="(order,index) in orders"
         :key="order.id"
@@ -78,7 +78,7 @@ export default {
       if (this.orders.length === 0) {
         this.isShowMess = true;
       }
-      this.$toast({ message: "刷新成功", duration: 1000 });
+      this.$toast({ message: "成功刷新", duration: 1000 });
       this.isLoading = false;
     },
     async grabOrder(order, index) {
@@ -116,6 +116,10 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+.tips{
+  text-align: center;
+  color: #9f9fa3;
+}
 .address {
   font-weight: 600;
   display: inline-block;
