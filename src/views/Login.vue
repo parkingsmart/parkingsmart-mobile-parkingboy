@@ -1,31 +1,4 @@
 <template>
-  <!-- <div class="loginStyle">
-    <div class="header">
-      <span class="head">Parking Smart</span>
-    </div>
-    <div class="loginCenter">
-      <van-cell-group>
-        <van-field
-          class="input-box"
-          style="margin-top:15px;"
-          v-model="username"
-          clearable
-          label="用户名"
-          placeholder="id/phone/email"
-          @click-right-icon="$toast('question')"
-        />
-
-        <van-field
-          class="input-box"
-          v-model="password"
-          type="password"
-          label="密码"
-          placeholder="Please input password"
-        />
-        <van-button round type="info" size="large" class="login-btn" @click="submit">登录</van-button>
-      </van-cell-group>
-    </div>
-  </div>-->
   <div>
     <div class="main-pane">
       <IconBox class="icon-box" />
@@ -102,7 +75,7 @@ export default {
   }
 }
 .main-pane {
-  margin-top: 30%;
+  margin-top: 40%;
 }
 .input-group {
   margin-top: 30px;

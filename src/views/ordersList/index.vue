@@ -44,6 +44,7 @@ export default {
   methods: {
     async initData() {
       this.ordersOnGoing = await getAllOrdersOnGoing(this.$store.getters.id);
+      console.log("111", this.ordersOnGoing);
     },
     getStatus(order) {
       let result = {
