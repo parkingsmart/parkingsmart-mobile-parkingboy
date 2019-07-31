@@ -62,6 +62,7 @@ export default {
       if (this.orders.length === 0) {
         this.isShowMess = true;
       }
+      this.$toast({message:'刷新成功',duration:1000});
       this.isLoading = false;
     },
     async grabOrder(order, index) {
@@ -114,5 +115,8 @@ export default {
 }
 .order {
   text-align: left;
+}
+/deep/.van-pull-refresh__track{
+  height: 300px;
 }
 </style>
