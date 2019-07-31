@@ -101,8 +101,12 @@ export default {
         result = "完成取车";
         this.isdisable = false;
         break;
-      default:
+      case 4:
         result = "订单待支付";
+        this.isdisable = true;
+        break;
+      case 5:
+        result = "订单已支付";
         this.isdisable = true;
         break;
       }

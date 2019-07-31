@@ -26,6 +26,7 @@
 
 <script>
 import moment from "moment";
+import Config from '../config';
 import { getAllNewOrders, grabOrderById } from "../apis/orders";
 import requestHandler from "../utils/requestHandler";
 export default {
@@ -42,7 +43,7 @@ export default {
 
   created() {
     this.ws = new WebSocket(
-      `/api/employees/${this.$store.state.employee.id}/orders`
+      `${Config.wsUrl()}/api/employees/${this.$store.getters.id}/orders`
     );
     this.ws.onmessage = this.wsHandler;
   },
