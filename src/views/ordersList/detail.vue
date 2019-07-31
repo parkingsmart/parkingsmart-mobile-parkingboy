@@ -41,6 +41,11 @@
           <span>{{ getBtnText() }}</span>
         </template>
       </van-button>
+      <van-button size="large" type="info" v-show="isCallUserBtn" @click="callUser">
+        <template>
+          <span>联系用户</span>
+        </template>
+      </van-button>
     </div>
   </div>
 </template>
@@ -66,7 +71,8 @@ export default {
       isdisable: false,
       btnIsShow: false,
       isDropdown: true,
-      orderDetail: {}
+      orderDetail: {},
+      isCallUserBtn: false
     };
   },
 
@@ -78,6 +84,7 @@ export default {
     this.parkingLots = await getParkingLots(this.$store.getters.id);
     this.orderDetail = await getOrderById(this.orderId);
     this.formatDiaplay();
+    this.checkShowCallBtn();
   },
   mounted() {},
 
@@ -177,6 +184,14 @@ export default {
       if (this.orderDetail.status < 2) {
         this.isDropdown = false;
       }
+    },
+    checkShowCallBtn() {
+      this.orderDetail.status === 1
+        ? (this.isCallUserBtn = true)
+        : (this.isCallUserBtn = false);
+    },
+    callUser(){
+      window.location.href = 'tel://13750090195';
     }
   },
   filters: {
