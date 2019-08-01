@@ -10,11 +10,11 @@ export function getAllNewOrders() {
   });
 }
 
-export function grabOrderById(orderId, employee) {
+export function grabOrderById(orderId, employeeId) {
   return axios({
     method: "put",
-    url: `${baseUrl}/${orderId}`,
-    data: employee,
+    url: `${baseUrl}/${orderId}?employeeId=${employeeId}`,
+
   });
 }
 
@@ -25,10 +25,16 @@ export function updateOrderParkingLot(orderId, parkingLot) {
     data: parkingLot,
   });
 }
-export function updateOrderStatus(orderId,statusCode) {
+export function updateOrderStatus(orderId, statusCode) {
   return axios({
     method: "patch",
     url: `${baseUrl}/${orderId}?status=${statusCode}`,
+  });
+}
+export function getOrderById(orderId) {
+  return axios({
+    method: "get",
+    url: `${baseUrl}/${orderId}`,
   });
 }
 

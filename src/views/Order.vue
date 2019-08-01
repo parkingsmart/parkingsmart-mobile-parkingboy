@@ -1,25 +1,43 @@
 <template>
   <div class="order">
     <van-pull-refresh v-model="isLoading" @refresh="initData" class="borad">
+      <p v-show="isShowMess" class="tips">暂无更多订单..</p>
       <van-cell
-        v-for="order in orders"
+        v-for="(order,index) in orders"
         :key="order.id"
-        :title="order.carNumber"
-        :label="order.appointTime |formatTime"
-        icon="logistics"
+        :label="order.appointTime | formatTime"
         size="large"
-        @click="grabOrder(order)"
+        @click="grabOrder(order,index)"
       >
+        <template slot="title">
+          <span class="carNo">{{ order.carNumber }}</span>
+        </template>
+        <template slot="icon">
+          <img class="cell-icon" src="../assets/img/smallcar.png" />
+          <span class="address">{{ order.appointAddress }}</span>
+        </template>
         <template slot="default">
           <van-button round type="info">抢单</van-button>
         </template>
       </van-cell>
     </van-pull-refresh>
+    <van-dialog
+      v-model="showDialog"
+      show-cancel-button
+      @confirm="dialogConfirm"
+      @cancel="dialogCancel"
+      class="dialogContent"
+    >
+      <img class="icon" src="../assets/img/successIcon.png" />
+      <p class="successMess">抢单成功!</p>
+      <p>是否现在为客户选择停车场？</p>
+    </van-dialog>
   </div>
 </template>
 
 <script>
 import moment from "moment";
+import Config from "../config";
 import { getAllNewOrders, grabOrderById } from "../apis/orders";
 import requestHandler from "../utils/requestHandler";
 export default {
@@ -27,13 +45,23 @@ export default {
   props: [""],
   data() {
     return {
+      ws: null,
       orders: [],
-      isLoading: false
+      isLoading: false,
+      isShowMess: false,
+      showDialog: false,
+      currentOrder: {
+        id: "",
+        index: "",
+      }
     };
   },
 
   created() {
-    this.checkExistUser();
+    this.ws = new WebSocket(
+      `${Config.wsUrl()}/api/employees/${this.$store.getters.id}/orders`
+    );
+    this.ws.onmessage = this.wsHandler;
   },
 
   mounted() {
@@ -41,49 +69,87 @@ export default {
   },
 
   methods: {
-    checkExistUser() {
-      if (!this.$store.state.employee) {
-        this.$router.push({ name: "login" });
-      }
-    },
     async initData() {
       this.orders = (await requestHandler
         .invoke(getAllNewOrders())
-        .msg("获取订单列表", "获取失败")
+        .msg(null, "获取失败")
         .loading()
         .exec()).orders;
+      this.orders.length === 0
+        ? (this.isShowMess = true)
+        : (this.isShowMess = false);
+      this.$toast({ message: "成功刷新", duration: 1000 });
       this.isLoading = false;
     },
-    async grabOrder(order) {
+    async grabOrder(order, index) {
+      this.currentOrderId = {};
       await requestHandler
-        .invoke(grabOrderById(order.id, this.$store.state.employee))
-        .msg("抢单成功", "您手慢了")
+        .invoke(grabOrderById(order.id, this.$store.getters.id))
+        .msg(null, "您手慢了")
         .loading()
         .exec();
-
-      this.$dialog
-        .confirm({
-          message: "是否现在选择停车位？"
-        })
-        .then(() => {
-          this.$router.push({ name: "detail", params: { orderId: order.id } });
-        })
-        .catch(() => {});
+      this.currentOrder.id = order.id;
+      this.currentOrder.index = index;
+      this.showDialog = true;
+    },
+    dialogConfirm() {
+      this.$router.push({
+        name: "detail",
+        params: { orderId: this.currentOrder.id }
+      });
+    },
+    dialogCancel() {
+      this.orders.splice(this.currentOrder.index, 1);
+    },
+    async wsHandler(res) {
+      if (res.data === "1") {
+        await this.initData();
+      }
     }
   },
   filters: {
     formatTime: function(time) {
       if (!time) return "";
-      return moment(time).format("YYYY-MM-DD HH:mm:ss");
+      return moment(time).format("MM-DD HH:mm:ss");
     }
   }
 };
 </script>
 <style lang='scss' scoped>
+.tips {
+  text-align: center;
+  color: #9f9fa3;
+}
+.address {
+  font-weight: 600;
+  display: inline-block;
+  padding-right: 20px;
+  max-width: 100px;
+  color: #4595e6;
+}
+
+.cell-icon {
+  height: 50px;
+  margin-right: 10px;
+}
 .borad {
   height: 580px;
 }
 .order {
   text-align: left;
+}
+/deep/.van-pull-refresh__track {
+  height: 300px;
+}
+.dialogContent {
+  text-align: center;
+  padding-top: 30px;
+  & .icon {
+    height: 50px;
+  }
+  & .successMess {
+    color: #5cad5c;
+    margin-top: 0px;
+  }
 }
 </style>
