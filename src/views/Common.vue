@@ -12,7 +12,7 @@
     <div class="footer">
       <van-tabbar route v-model="title">
         <van-tabbar-item replace to="/order" icon="description" name="订单">抢单</van-tabbar-item>
-        <van-tabbar-item replace to="/list" icon="logistics" name="停车地点">停取</van-tabbar-item>
+        <van-tabbar-item replace to="/list" icon="logistics" name="停车地点" :dot="dot" @click="dot = false">停取</van-tabbar-item>
       </van-tabbar>
     </div>
   </div>
@@ -34,7 +34,16 @@ export default {
       this.$router.go(-1);
     }
   },
-
+  computed: {
+    dot: {
+      get() {
+        return this.$store.state.dot;
+      },
+      set(value) {
+        this.$store.commit('setDot', value);
+      }
+    }
+  },
   watch: {
     $route(now) {
       if (now.meta && now.meta.isShowBack) {
