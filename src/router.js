@@ -1,13 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Common from './views/Common.vue';
-import Order from './views/Order.vue';
-import List from './views/ordersList';
-import Detail from './views/ordersList/detail';
-
-import History from './views/History.vue';
-import User from './views/User.vue';
-import Login from './views/Login.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -17,7 +10,7 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: resolve => require(['./views/Login.vue'], resolve),
     },
     {
       path: '/',
@@ -28,31 +21,30 @@ export default new Router({
         {
           path: '/order',
           name: 'order',
-          component: Order,
+          component: resolve => require(['./views/Order.vue'], resolve),
         },
         {
           path: '/list',
           name: 'list',
-          component: List,
+          component: resolve => require(['./views/ordersList'], resolve),
         },
         {
           path: '/list/:orderId/detail',
           name: 'detail',
-          component: Detail,
+          component: resolve => require(['./views/ordersList/detail'], resolve),
           props: true,
           meta: { isShowBack: true }
         },
         {
           path: '/history',
           name: 'history',
-          component: History,
+          component: resolve => require(['./views/History.vue'], resolve),
         },
         {
           path: '/user',
           name: 'user',
-          component: User,
+          component: resolve => require(['./views/User.vue'], resolve),
         },
-
       ]
     }
   ]
