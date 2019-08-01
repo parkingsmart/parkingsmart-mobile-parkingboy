@@ -52,6 +52,7 @@
 
 <script>
 import { getParkingLots } from "../../apis/employee";
+import { getUserInfo } from "../../apis/user";
 import moment from "moment";
 import {
   updateOrderParkingLot,
@@ -72,7 +73,8 @@ export default {
       btnIsShow: false,
       isDropdown: true,
       orderDetail: {},
-      isCallUserBtn: false
+      isCallUserBtn: false,
+      userInfo: {}
     };
   },
 
@@ -83,6 +85,7 @@ export default {
   async created() {
     this.parkingLots = await getParkingLots(this.$store.getters.id);
     this.orderDetail = await getOrderById(this.orderId);
+    this.userInfo = await getUserInfo(this.orderDetail.userId);
     this.formatDiaplay();
     this.checkShowCallBtn();
   },
@@ -190,8 +193,8 @@ export default {
         ? (this.isCallUserBtn = true)
         : (this.isCallUserBtn = false);
     },
-    callUser(){
-      window.location.href = 'tel://13750090195';
+    callUser() {
+      window.location.href = `tel://${this.userInfo.phone}`;
     }
   },
   filters: {
