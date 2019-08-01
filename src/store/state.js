@@ -1,3 +1,6 @@
 export default {
-  employee: null
+  employee: null,
+  webSocket: null,
+  webSocketData: null,
+  dot: false
 };
