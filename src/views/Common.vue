@@ -19,6 +19,9 @@
 </template>
 
 <script>
+import Config from "../config";
+import { getToken } from '../utils/token';
+
 export default {
   name: "common",
   props: [""],
@@ -28,7 +31,24 @@ export default {
       isShowIcon: false
     };
   },
+  async created() {
+    if (getToken()) {
+      await this.$store.dispatch("getUserInfo");
+    }
+    let webSocket = new WebSocket(
+      `${Config.wsUrl()}/api/employees/${this.$store.getters.id}/orderChange`
+    );
 
+    webSocket.onmessage = res => {
+      this.$store.commit('setDot', true);
+      this.$store.commit("setWebSocketData", res.data);
+      setTimeout(() => {
+        this.$store.commit("setWebSocketData", null);
+      }, 3000);
+    };
+
+    this.$store.commit("setWebSocket", webSocket);
+  },
   methods: {
     back() {
       this.$router.go(-1);

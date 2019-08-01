@@ -18,9 +18,6 @@
   </div>
 </template>
 <script>
-import Config from "./config";
-import { getToken } from './utils/token';
-
 export default {
   name: "app",
   computed: {
@@ -30,24 +27,6 @@ export default {
     isShowPopup() {
       return this.$store.state.webSocketData !== null;
     }
-  },
-  async created() {
-    if (getToken()) {
-      await this.$store.dispatch("getUserInfo");
-    }
-    let webSocket = new WebSocket(
-      `${Config.wsUrl()}/api/employees/${this.$store.getters.id}/orderChange`
-    );
-
-    webSocket.onmessage = res => {
-      this.$store.commit('setDot', true);
-      this.$store.commit("setWebSocketData", res.data);
-      setTimeout(() => {
-        this.$store.commit("setWebSocketData", null);
-      }, 3000);
-    };
-
-    this.$store.commit("setWebSocket", webSocket);
   }
 };
 </script>
