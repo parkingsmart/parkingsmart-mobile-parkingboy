@@ -1,5 +1,5 @@
 export default {
   id(state) {
-    return state.employee.id;
+    return state.employee ? state.employee.id : "";
   }
 };

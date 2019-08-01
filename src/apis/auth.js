@@ -7,8 +7,8 @@ export const login = (username, password) => {
   });
 };
 
-export const getUserInfo = (id) => {
-  return axios.get(`/api/employees/${id}`);
+export const getUserInfo = () => {
+  return axios.get(`/api/employees/info`);
 };
 
 export const logout = () => {

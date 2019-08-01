@@ -5,15 +5,14 @@ export default {
   async login({ dispatch }, { username, password }) {
     username = username.trim();
     await login(username, password);
-    await dispatch('getUserInfo', username);
+    await dispatch('getUserInfo');
   },
-  async getUserInfo({ commit }, id) {
-    const data = await getUserInfo(id);
+  async getUserInfo({ commit }) {
+    const data = await getUserInfo();
     commit('getEmployeeInfo', data);
   },
   async logout({ commit }) {
     await logout();
-    commit('setToken', '');
     commit('getEmployeeInfo', null);
     removeToken();
   }
