@@ -43,9 +43,10 @@ class RequestHandler {
   async exec() {
     let ret = null;
     let error = null;
+    let toast = null;
 
     if (this[_option].showLoading) {
-      this[_toast]({
+      toast = this[_toast]({
         type: 'loading',
         forbidClick: true,
         duration: 0,
@@ -58,13 +59,13 @@ class RequestHandler {
       this[_successHandle]();
     } catch (err) {
       error = err;
-      if (error && error.response && error.response.data && typeof(error.response.data) === 'string') {
+      if (error && error.response && error.response.data && typeof (error.response.data) === 'string') {
         error.message = error.response.data;
       }
       this[_errorHandle](err);
     } finally {
       if (this[_option].showLoading) {
-        this[_toast].clear();
+        toast.clear();
       }
     }
 
