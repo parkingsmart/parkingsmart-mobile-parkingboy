@@ -1,28 +1,31 @@
 <template>
   <div class="content">
-    <p v-show="isShowMess" class="tips">暂无更多订单..</p>
-    <van-cell-group>
-      <van-cell
-        v-for="order in ordersOnGoing"
-        :key="order.id"
-        :title="order.carNumber"
-        :label="order.appointTime |formatTime"
-        size="large"
-        is-link
-        :to="{ name:'detail',params:{orderId:order.id} }"
-      >
-        <!-- <template slot="icon">
-          <span class="address">{{ order.appointAddress }}</span>
-        </template> -->
-        <template slot="default">
-           <span class="address">{{ order.appointAddress }}</span>
-        </template>
-        <template slot="right-icon">
-          <van-tag round :type="getStatus(order).type" class="cell-icon">{{ getStatus(order).text }}</van-tag>
-          <van-icon class="arrow-icon" name="arrow" />
-        </template>
-      </van-cell>
-    </van-cell-group>
+    <van-pull-refresh v-model="isLoading" @refresh="initData" class="borad">
+      <p v-show="isShowMess" class="tips">暂无更多订单..</p>
+      <van-cell-group>
+        <van-cell
+          v-for="order in ordersOnGoing"
+          :key="order.id"
+          :title="order.carNumber"
+          :label="order.appointTime |formatTime"
+          size="large"
+          is-link
+          :to="{ name:'detail',params:{orderId:order.id} }"
+        >
+          <template slot="default">
+            <span class="address">{{ order.appointAddress }}</span>
+          </template>
+          <template slot="right-icon">
+            <van-tag
+              round
+              :type="getStatus(order).type"
+              class="cell-icon"
+            >{{ getStatus(order).text }}</van-tag>
+            <van-icon class="arrow-icon" name="arrow" />
+          </template>
+        </van-cell>
+      </van-cell-group>
+    </van-pull-refresh>
   </div>
 </template>
 
@@ -33,6 +36,7 @@ export default {
   name: "List",
   data() {
     return {
+      isLoading: false,
       ordersOnGoing: [],
       btnType: "danger",
       isShowMess: false
@@ -50,6 +54,7 @@ export default {
   methods: {
     async initData() {
       this.ordersOnGoing = await getAllOrdersOnGoing(this.$store.getters.id);
+      this.isLoading = false;
     },
     getStatus(order) {
       let result = {
@@ -108,18 +113,18 @@ export default {
 /deep/.van-cell__right-icon {
   line-height: 45px;
 }
-/deep/.van-cell__value{
+/deep/.van-cell__value {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: left;
 }
 .cell-icon {
-    height: 20px;
-    line-height: 20px;
-    margin-top: 10px;
+  height: 20px;
+  line-height: 20px;
+  margin-top: 10px;
 }
-.arrow-icon{
+.arrow-icon {
   line-height: 45px;
 }
 </style>
