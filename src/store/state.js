@@ -1,3 +1,3 @@
 export default {
-  employee: null,
+  employee: null
 };

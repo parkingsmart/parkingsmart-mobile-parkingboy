@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import { login } from "../apis/login";
 import IconBox from "../components/IconBox";
+
 export default {
   name: "Login",
   components: {
@@ -26,7 +26,7 @@ export default {
     };
   },
   methods: {
-    submit() {
+    async submit() {
       if (this.username === "") {
         this.$notify("请输入账户");
       } else if (this.password === "") {
@@ -35,17 +35,15 @@ export default {
         const regEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
         const regNumber = /^[0-9]+$/;
         if (regEmail.test(this.username) || regNumber.test(this.username)) {
-          login({
-            username: this.username,
-            password: this.password
-          })
-            .then(res => {
-              this.$store.commit("getEmployeeInfo", res);
-              this.$router.push("/order");
-            })
-            .catch(() => {
-              this.$notify("账户密码错误");
+          try {
+            await this.$store.dispatch('login', {
+              username: this.username,
+              password: this.password
             });
+            this.$router.push("/order");
+          } catch (error) {
+            this.$notify("账户密码错误");
+          }
         } else {
           this.$notify("账户密码错误");
         }
